@@ -12,9 +12,12 @@ def new_user(request):
         # Check the form is valid
         if not feilds.is_valid():
             return HttpResponse("Error: bad form")
+
+        # Saving the new account
         new_username, new_password = feilds.data['username'], feilds.data['password']
         new_account: models.Account = models.account_factory(new_username, new_password)
-        new_account.email = "EMAIL NOT YET SUPPORTED"
+        new_account.email = feilds.data['email']
+        new_account.save()
 
         return HttpResponse("<p>Sorry, WIP lol</p>")
     else:
