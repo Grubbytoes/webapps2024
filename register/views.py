@@ -15,7 +15,7 @@ def new_user(request):
 
         # Saving the new account
         new_username, new_password = feilds.data['username'], feilds.data['password']
-        new_account: models.Account = models.account_factory(new_username, new_password)
+        new_account: models.UserAccount = models.account_factory(new_username, new_password)
         new_account.email = feilds.data['email']
         new_account.save()
 
