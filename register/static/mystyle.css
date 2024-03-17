@@ -1,0 +1,30 @@
+body {
+    font-family: "Lucida Console", "Courier New", monospace;
+    background-color: black;
+    color: ghostwhite;
+}
+
+h1 {
+    color: gold;
+}
+
+form {
+    margin: 30px;
+    border: 2px ghostwhite;
+    div {
+        width: 30%;
+        margin: 10px;
+        input {
+            float: right;
+        }
+    }
+}
+
+input {
+    border: 2px solid ghostwhite;
+    margin: 2px;
+    padding: 5px 4px 2px 4px;
+    color: ghostwhite;
+    font-family: "Lucida Console", "Courier New", monospace;
+    background-color: black;
+}
