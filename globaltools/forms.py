@@ -10,8 +10,11 @@ class RegisterForm(forms.Form):
 
     def is_valid(self):
         v: bool = forms.Form.is_valid(self)
-        v = v and self.data['email'] == self.data['email_c']
-        v = v and self.data['password'] == self.data['password_c']
+        if self.data['email'] == self.data['email_c']:
+            v = False
+            self.add_error('email', 'email and email confirmation fields do not match')
+        if self.data['password'] == self.data['password_c']:
+            self.add_error('password', 'password and password confirmation fields do not match')
         return v
 
 

@@ -11,14 +11,26 @@ def new_user(request):
         feilds = forms.RegisterForm(request.POST)
         # Check the form is valid
         if not feilds.is_valid():
-            return HttpResponse("Error: bad form")
+            context['message'] = "Sorry, bad for posted - try again"
+            render(request, 'register/new_user.html', context)
 
         # Saving the new account
-        new_username, new_password = feilds.data['username'], feilds.data['password']
-        new_account: models.UserAccount = models.account_factory(new_username, new_password)
-        new_account.email = feilds.data['email']
-        new_account.save()
-
-        return HttpResponse("<p>Sorry, WIP lol</p>")
+        (
+            new_username,
+            new_password,
+            new_email
+        ) = (
+            feilds.data['username'],
+            feilds.data['password'],
+            feilds.data.get('email')
+        )
+        new_account_code = models.UserAccount.create_new(new_username, new_password, new_email)
+        if new_account_code > 0:
+            return HttpResponse("<p>Account created successfully</p>")
+        elif new_account_code == -1:
+            context['message'] = "Sorry, that username is already taken - try again"
+        else:
+            context['message'] = "Sorry, that username is already taken - try again"
+        return render(request, 'register/new_user.html', context)
     else:
         raise Http404()
