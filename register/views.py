@@ -8,17 +8,22 @@ def new_user(request):
     if request.method == "GET":
         return render(request, 'register/new_user.html', context)
     elif request.method == "POST":
-        feilds = forms.RegisterForm(request.POST)
+        form = forms.RegisterForm(request.POST)
+        feilds = form.data
+
         # Check the form is valid
-        if not feilds.is_valid():
-            return HttpResponse("Error: bad form")
+        vaild: bool = True
+        if not form.is_valid():
+            context['message'] = "Sorry, bad for posted - try again"
+            render(request, 'register/new_user.html', context)
 
-        # Saving the new account
-        new_username, new_password = feilds.data['username'], feilds.data['password']
-        new_account: models.UserAccount = models.account_factory(new_username, new_password)
-        new_account.email = feilds.data['email']
-        new_account.save()
-
-        return HttpResponse("<p>Sorry, WIP lol</p>")
+        new_account_code = models.UserAccount.create_new(new_username, new_password, new_email)
+        if new_account_code > 0:
+            return HttpResponse("<p>Account created successfully</p>")
+        elif new_account_code == -1:
+            context['message'] = "Sorry, that username is already taken - try again"
+        else:
+            context['message'] = "Sorry, that username is already taken - try again"
+        return render(request, 'register/new_user.html', context)
     else:
         raise Http404()

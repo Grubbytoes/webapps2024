@@ -12,16 +12,25 @@ class UserAccount(models.Model):
     email = models.TextField(max_length=64, null=True)
 
     @staticmethod
-    def create_new(new_username: str, new_password: str, new_email: str) -> bool:
-        # Check that the username exists
+    def create_new(new_username: str, new_password: str, new_email: str) -> int:
+        """
+        Creates a new user account, provided the given username is unique.
+        Also creates a new account holding
+        :param new_username:
+        :param new_password:
+        :param new_email:
+        :return: The ID of the newly created user, if successful, otherwise:
+            -1: username already exists
+            -2: bad password
+        """
         if UserAccount.objects.filter(username=new_username).exists():
-            return False
+            return -1
 
         new_account: UserAccount = UserAccount(username=new_username, email=new_email)
         new_account.bad_password = make_password(new_password)
         new_account.holding = Holding(account=new_account, balance=1000)
         new_account.save()
-        return True
+        return new_account.id
 
 
 class Holding(models.Model):
