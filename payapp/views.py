@@ -1,7 +1,6 @@
 from django.shortcuts import render
 
-from payapp import forms
-
+from globaltools import forms
 
 # Create your views here.
 def login(request):

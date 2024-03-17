@@ -1,6 +1,6 @@
 from django.http import HttpResponse, Http404
 from django.shortcuts import render
-from . import forms, models
+from globaltools import models, forms
 
 
 def new_user(request):

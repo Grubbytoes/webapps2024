@@ -14,7 +14,7 @@ class Holding(models.Model):
 
 
 def account_factory(new_username: str, new_password: str) -> Account:
-    '''
+    """
     Instances a new account with the given username and password, and creates an account with a default
     balance of 1000
 
@@ -22,7 +22,7 @@ def account_factory(new_username: str, new_password: str) -> Account:
     :param new_username: Username
     :param new_password: Password
     :return: the new account
-    '''
+    """
     new_account: Account = Account(username=new_username, bad_password=new_password)
     new_account.holding = Holding(account=new_account, balance=1000)
     return new_account
