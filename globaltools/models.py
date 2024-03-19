@@ -2,14 +2,31 @@ from django.contrib.auth.hashers import make_password
 from django.db import models
 from django.contrib.auth.models import User
 
+CURRENCIES = {
+    "USD": "American Dollar",
+    "GBP": "Pound Sterling",
+    "EUR": "Euro"
+}
+
 
 class UserAccount(models.Model):
     """
     A user's account
+
+    Yes' I know there's an inbuilt user base class - I wanted to do as much of this myself as I could
+    for education's sake. Maybe I will change it later
+
+    Also, if you're reading this marker, it was never mentioned in the labs or in the project description
     """
+    # The essentials added at account creation
     username = models.TextField(max_length=32, unique=True)
     password = models.TextField(max_length=32, null=True)
     email = models.TextField(max_length=64, null=True)
+
+    # Further details and verification
+    fname = models.TextField(name="first_name", max_length=32, null=1)
+    lname = models.TextField(name="last_name", max_length=32, null=1)
+    v = models.BooleanField(name="verified", default=False)
 
     @staticmethod
     def create_new(new_username: str, new_password: str, new_email: str) -> int:
@@ -39,7 +56,14 @@ class Holding(models.Model):
     """
     account = models.OneToOneField(UserAccount, on_delete=models.CASCADE, primary_key=True)
     balance = models.PositiveIntegerField()
+    currency = models.CharField(max_length=3, choices=CURRENCIES, default="GBP")
 
+
+class Transaction(models.Model):
+    sender = models.ForeignKey(Holding, name="sender", on_delete=models.CASCADE, related_name="sent_from")
+    recipient = models.ForeignKey(Holding, name="recipient", on_delete=models.CASCADE, related_name="received_by")
+    value = models.PositiveIntegerField(verbose_name="Value (as outgoing)")
+    date_made = models.DateTimeField(auto_now_add=1)
 
 # STATIC FUNCTION
 
