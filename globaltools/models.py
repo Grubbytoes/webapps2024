@@ -8,7 +8,7 @@ class UserAccount(models.Model):
     A user's account
     """
     username = models.TextField(max_length=32, unique=True)
-    bad_password = models.TextField(max_length=32, null=True)
+    password = models.TextField(max_length=32, null=True)
     email = models.TextField(max_length=64, null=True)
 
     @staticmethod
@@ -27,7 +27,7 @@ class UserAccount(models.Model):
             return -1
 
         new_account: UserAccount = UserAccount(username=new_username, email=new_email)
-        new_account.bad_password = make_password(new_password)
+        new_account.password = make_password(new_password)
         new_account.holding = Holding(account=new_account, balance=1000)
         new_account.save()
         return new_account.id

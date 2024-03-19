@@ -9,7 +9,7 @@ def new_user(request):
         return render(request, 'register/new_user.html', context)
     elif request.method == "POST":
         form = forms.RegisterForm(request.POST)
-        feilds = form.data
+        fields = form.data
 
         # Check the form is valid
         vaild: bool = True
@@ -17,7 +17,11 @@ def new_user(request):
             context['message'] = "Sorry, bad for posted - try again"
             render(request, 'register/new_user.html', context)
 
-        new_account_code = models.UserAccount.create_new(new_username, new_password, new_email)
+        new_account_code = models.UserAccount.create_new(
+            new_username=fields['username'],
+            new_password=fields['password'],
+            new_email=fields['email']
+        )
         if new_account_code > 0:
             return HttpResponse("<p>Account created successfully</p>")
         elif new_account_code == -1:
