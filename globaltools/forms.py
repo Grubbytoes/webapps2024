@@ -37,7 +37,7 @@ class LoginForm(forms.Form):
         """
         input_username = self.data['username']
         input_password = self.data['password']
-        found_user = mymodels.User.objects.all().filter(username=input_username)
+        found_user = mymodels.UserAccount.objects.all().filter(username__exact=input_username)
 
         # Check that any such user exists
         if not found_user:

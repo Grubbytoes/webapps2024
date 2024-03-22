@@ -24,6 +24,7 @@ def login(request):
         else:
             id_token = -1
 
+        print(id_token)
         if id_token >= 0:
             request.session["id"] = id_token
             return HttpResponse("You're in!")
