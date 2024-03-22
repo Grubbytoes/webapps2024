@@ -9,4 +9,7 @@ def login(request):
         'form': forms.LoginForm()
     }
 
-    return render(request, 'payapp/login.html', login_context)
+    if request.method == "GET":
+        return render(request, 'payapp/login.html', login_context)
+    elif request.method == "POST":
+        pass

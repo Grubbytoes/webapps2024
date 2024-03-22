@@ -1,4 +1,5 @@
 from django import forms
+from . import models as mymodels
 
 
 class RegisterForm(forms.Form):
@@ -19,6 +20,26 @@ class RegisterForm(forms.Form):
             v = False
             self.add_error('password', 'password and password confirmation fields do not match')
         return v
+
+    def authenticate_user(self) -> int:
+        """
+        Searches for a user with the given details, and checks their password
+        returns user id if successful
+        :return:
+        """
+        input_username = self.data['username']
+        input_password = self.data['password']
+        found_user = mymodels.User.objects.all().filter(username=input_username)
+
+        # Check that any such user exists
+        if not found_user:
+            return -1
+
+        # Check password
+        user: mymodels.UserAccount = found_user[0]
+        id_code = user.authenticate_password(input_password)
+
+        return id_code
 
 
 class LoginForm(forms.Form):

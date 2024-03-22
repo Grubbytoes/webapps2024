@@ -1,4 +1,5 @@
-from django.contrib.auth.hashers import make_password
+from django.contrib.auth.base_user import AbstractBaseUser
+from django.contrib.auth.hashers import make_password, check_password
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -9,7 +10,7 @@ CURRENCIES = {
 }
 
 
-class UserAccount(models.Model):
+class UserAccount(AbstractBaseUser):
     """
     A user's account
 
@@ -48,6 +49,12 @@ class UserAccount(models.Model):
         new_account.holding = Holding(account=new_account, balance=1000)
         new_account.save()
         return new_account.id
+
+    def authenticate_password(self, input_password: str) -> int:
+        if check_password(input_password, self.password):
+            return self.id
+        else:
+            return -1
 
 
 class Holding(models.Model):
