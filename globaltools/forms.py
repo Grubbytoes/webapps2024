@@ -21,6 +21,14 @@ class RegisterForm(forms.Form):
             self.add_error('password', 'password and password confirmation fields do not match')
         return v
 
+
+class LoginForm(forms.Form):
+    """
+    Simple form for logging in
+    """
+    username = forms.CharField(label="Your Username")
+    password = forms.CharField(label="Your Password", widget=forms.PasswordInput)
+
     def authenticate_user(self) -> int:
         """
         Searches for a user with the given details, and checks their password
@@ -40,11 +48,3 @@ class RegisterForm(forms.Form):
         id_code = user.authenticate_password(input_password)
 
         return id_code
-
-
-class LoginForm(forms.Form):
-    """
-    Simple form for logging in
-    """
-    username = forms.CharField(label="Your Username")
-    password = forms.CharField(label="Your Password", widget=forms.PasswordInput)
