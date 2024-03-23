@@ -2,6 +2,7 @@ from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.hashers import make_password, check_password
 from django.db import models
 from django.contrib.auth.models import User
+import secrets
 
 CURRENCIES = {
     "USD": "American Dollar",
@@ -45,7 +46,7 @@ class UserAccount(AbstractBaseUser):
             return -1
 
         new_account: UserAccount = UserAccount(username=new_username, email=new_email)
-        new_account.password = make_password(new_password)
+        new_account.password = make_password(new_password, salt=str(secrets.randbits(32)))
         new_account.holding = Holding(account=new_account, balance=1000)
         new_account.save()
         return new_account.id
