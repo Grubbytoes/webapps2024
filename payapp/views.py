@@ -10,7 +10,10 @@ from globaltools import forms as myforms
 def login(request):
     login_context = {
         'page_title': 'login',
-        'form': myforms.LoginForm()
+        'form': myforms.LoginForm(),
+        'navigation': [
+            {"title": "register", "href": "dummy/link"}
+        ]
     }
 
     if request.method == "GET":

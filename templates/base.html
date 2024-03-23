@@ -16,9 +16,9 @@
 </head>
 <body>
     <h1>W:\PayApp24\{{ page_title|title }}>_</h1>
-    <p>
-        {% block content %}
-        {% endblock %}
-    </p>
+    {% block content %}
+    {% endblock %}
+    {% include 'navigation.html' %}
+
 </body>
 </html>

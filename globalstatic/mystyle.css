@@ -8,6 +8,20 @@ h1 {
     color: gold;
 }
 
+.navigation {
+    width: 100px;
+    a{
+        color: black;
+        text-decoration: none;
+    }
+    li {
+        margin: 5px;
+        padding: 3px;
+        background-color: gold;
+        color: black;
+    }
+}
+
 form {
     margin: 30px;
     border: 2px ghostwhite;
@@ -16,6 +30,9 @@ form {
         margin: 10px;
         input {
             float: right;
+            .submit {
+                align-self: center;
+            }
         }
     }
 }
