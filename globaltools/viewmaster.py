@@ -4,6 +4,9 @@ from django.shortcuts import render
 
 
 class ViewMaster:
+    """
+    A class responsibe for
+    """
     render_dest: str
     page_title: str
     _context: dict

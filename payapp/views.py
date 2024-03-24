@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 
 from globaltools import forms as myforms
+import globaltools.viewmaster as vm
 
 
 # Create your views here.
@@ -34,3 +35,5 @@ def login(request):
         else:
             return HttpResponse("Didn't work!")
 
+
+welcome = vm.ViewMaster("welcome", "payapp/welcome.html")
