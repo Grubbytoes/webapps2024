@@ -9,6 +9,7 @@ h1 {
 }
 
 .navigation {
+    padding-top: 100px;
     width: 100px;
     a{
         color: black;
