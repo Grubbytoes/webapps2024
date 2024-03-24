@@ -9,13 +9,12 @@ h1 {
 }
 
 .navigation {
-    padding-top: 100px;
-    width: 100px;
     a{
         color: black;
         text-decoration: none;
     }
     li {
+        width: 100px;
         margin: 5px;
         padding: 3px;
         background-color: gold;

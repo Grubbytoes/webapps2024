@@ -6,34 +6,17 @@ from globaltools import forms as myforms
 import globaltools.viewmaster as vm
 
 
+NAVIGATION = [
+    ('home', '../payapp'),
+    ('login', 'login'),
+    ('secret', 'https://en.wikipedia.org/wiki/Rickrolling')
+]
+
+
 # Create your views here.
-@csrf_exempt
-def login(request):
-    login_context = {
-        'page_title': 'login',
-        'form': myforms.LoginForm(),
-        'navigation': [
-            {"title": "register", "href": "dummy/link"}
-        ]
-    }
 
-    if request.method == "GET":
-        return render(request, 'payapp/login.html', login_context)
-    elif request.method == "POST":
-        form = myforms.LoginForm(request.POST)
-        id_token: int
-
-        if form.is_valid():
-            id_token = form.authenticate_user()
-        else:
-            id_token = -1
-
-        print(id_token)
-        if id_token >= 0:
-            request.session["id"] = id_token
-            return HttpResponse("You're in!")
-        else:
-            return HttpResponse("Didn't work!")
-
+login = vm.FormView("login", "payapp/login.html", myforms.LoginForm())
+login.update_context({'navigation': NAVIGATION})
 
 welcome = vm.ViewMaster("welcome", "payapp/welcome.html")
+welcome.update_context({'navigation': NAVIGATION})

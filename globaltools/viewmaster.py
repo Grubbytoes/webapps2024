@@ -1,3 +1,4 @@
+from django.core.handlers.wsgi import WSGIRequest
 from django.forms import Form
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -5,7 +6,7 @@ from django.shortcuts import render
 
 class ViewMaster:
     """
-    A class responsibe for
+    A class responsible for making sure I write less redundant code
     """
     render_dest: str
     page_title: str
@@ -29,23 +30,29 @@ class ViewMaster:
 
 class FormView(ViewMaster):
     form: Form
+    post_render_dest: str
     
     def __init__(self, page_title: str, render_dest: str, form):
         super().__init__(page_title, render_dest)
-        self.update_context({"form": form})
+        self.post_render_dest = self.render_dest
+        self.form = form
     
-    def view(self, request):
+    def view(self, request: WSGIRequest):
         if request.method == "GET":
             return self.view_get(request)
         elif request.method == "POST":
             return self.view_post(request)
 
-    def view_get(self, request):
+    def view_get(self, request: WSGIRequest):
         self.update_context({"form": self.form})
         return super().view(request)
 
-    def view_post(self, request):
-        pass
+    def view_post(self, request: WSGIRequest):
+        post_form = Form(request.POST)
+        if post_form.is_valid():
+            return render(request, self.post_render_dest, self._context)
+        else:
+            self.update_context({""})
         
     
     
