@@ -7,8 +7,8 @@ import globaltools.viewmaster as vm
 
 
 NAVIGATION = [
-    ('home', '../payapp'),
-    ('login', 'login'),
+    ('home', '/payapp'),
+    ('login', '/payapp/login'),
     ('secret', 'https://en.wikipedia.org/wiki/Rickrolling')
 ]
 
@@ -20,3 +20,6 @@ login.update_context({'navigation': NAVIGATION})
 
 welcome = vm.ViewMaster("welcome", "payapp/welcome.html")
 welcome.update_context({'navigation': NAVIGATION})
+
+my_account = vm.ViewMaster("my account", "payapp/my_account.html")
+my_account.require_login('/payapp')

@@ -1,7 +1,7 @@
 from django.core.handlers.wsgi import WSGIRequest
 from django.forms import Form
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 
 class ViewMaster:
@@ -10,7 +10,11 @@ class ViewMaster:
     """
     render_dest: str
     page_title: str
+
+    # 'private' fields
     _context: dict
+    _requires_login = False
+    _redirect_dest: str
 
     def __init__(self, page_title: str, render_dest: str):
         self.page_title = page_title
@@ -22,10 +26,21 @@ class ViewMaster:
         }
 
     def view(self, request):
+        if self._requires_login and request.session.get('user_id', -1) < 0:
+            return redirect(self._redirect_dest)
         return render(request, self.render_dest, self._context)
 
     def update_context(self, update_with):
         self._context.update(update_with)
+
+    def require_login(self, redirect = None):
+        if not redirect:
+            self._requires_login = False
+        else:
+            self._requires_login = True
+
+        self._redirect_dest = redirect
+
 
 
 class FormView(ViewMaster):

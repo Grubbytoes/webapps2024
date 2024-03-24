@@ -5,5 +5,6 @@ from payapp import views
 
 urlpatterns = [
     path('login', csrf_exempt(views.login.view)),
-    path('', csrf_exempt(views.welcome.view))
+    path('', csrf_exempt(views.welcome.view)),
+    path('my_account', views.my_account.view)
 ]
