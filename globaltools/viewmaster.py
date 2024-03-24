@@ -1,4 +1,4 @@
-from django.core.handlers.wsgi import WSGIRequest
+from django.core.handlers.wsgi import HttpRequest
 from django.forms import Form
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
@@ -52,17 +52,17 @@ class FormView(ViewMaster):
         self.post_render_dest = self.render_dest
         self.form = form
     
-    def view(self, request: WSGIRequest):
+    def view(self, request: HttpRequest):
         if request.method == "GET":
             return self.view_get(request)
         elif request.method == "POST":
             return self.view_post(request)
 
-    def view_get(self, request: WSGIRequest):
+    def view_get(self, request: HttpRequest):
         self.update_context({"form": self.form})
         return super().view(request)
 
-    def view_post(self, request: WSGIRequest):
+    def view_post(self, request: HttpRequest):
         post_form = Form(request.POST)
         if post_form.is_valid():
             return render(request, self.post_render_dest, self._context)
