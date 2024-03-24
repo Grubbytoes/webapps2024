@@ -38,7 +38,8 @@ class FormView(ViewMaster):
             return self.view_post(request)
 
     def view_get(self, request):
-        pass
+        self.update_context({"form": self.form})
+        return super().view(request)
 
     def view_post(self, request):
         pass
