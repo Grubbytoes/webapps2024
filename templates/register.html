@@ -3,6 +3,7 @@
 {% block content %}
     <p>Please enter your details here!</p>
     <form method="post">
+        {% csrf_token %}
         {{ form }}
         <input type="submit" value="Submit">
     </form>

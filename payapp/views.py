@@ -6,7 +6,7 @@ from . import forms, models
 
 
 # Create your views here.
-@csrf_exempt
+
 def login(request):
     if request.method == "POST":
         # If the form is invalid, exit.
