@@ -1,6 +1,5 @@
-from django.contrib.auth import authenticate
+from django.contrib.auth import login as auth_login
 from django.shortcuts import render
-from django.views.decorators.csrf import csrf_exempt
 
 from . import forms, models
 
@@ -28,6 +27,7 @@ def login(request):
         if not user_by_name.check_password(data['password']):
             return False
 
+        auth_login(request, user_by_name)
         return True
 
     if request.method == "POST":
