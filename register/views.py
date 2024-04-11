@@ -50,7 +50,7 @@ def register(request):
     if ok:
         pass
     else:
-        return render(request, 'register.html', {
+        return render(request, 'default_form.html', {
             'page_title': 'register new user',
             'form': forms.RegisterForm(),
             'errors': errors
