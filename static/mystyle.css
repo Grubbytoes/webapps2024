@@ -6,20 +6,37 @@ body {
 
 h1 {
     color: gold;
+    margin: 25px;
 }
 
-.navigation {
-    a{
-        color: black;
-        text-decoration: none;
-    }
-    li {
-        width: 100px;
-        margin: 5px;
-        padding: 3px;
-        background-color: gold;
-        color: black;
-    }
+aside {
+    clear: right;
+    float: right;
+    width: 20%;
+}
+
+footer {
+    clear: both;
+    justify-self: center;
+}
+
+section {
+    display: flex;
+}
+
+#sidebar {
+    height: auto;
+    flex-grow: 1;
+}
+
+#sidebar {
+    height: auto;
+    flex-grow: 1;
+}
+
+#content {
+    height: auto;
+    flex-grow: 6;
 }
 
 #error

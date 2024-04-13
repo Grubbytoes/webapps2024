@@ -5,19 +5,32 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ page_title|title }}</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="{% static 'mystyle.css' %}">
 </head>
 
 <body>
 <h1>W:\PayApp24\{{ page_title|title }}>_</h1>
 
-{% block content %}
-{% endblock %}
+<section>
+    <div id="sidebar">
+        <ul>
+            <li>t</li>
+            <li>e</li>
+            <li>s</li>
+            <li>t</li>
+            <li>i</li>
+            <li>n</li>
+            <li>g</li>
+        </ul>
+    </div>
 
-<aside>
-    Testing
-</aside>
+    <div id="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <div id="sidebar">Testing</div>
+</section>
 
 <footer>
     Testing
