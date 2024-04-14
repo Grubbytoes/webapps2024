@@ -29,11 +29,12 @@ def login(request):
             return False
 
         auth_login(request, user_by_name)
-        return redirect('/home')
+        return True
 
     if request.method == "POST":
         logged_in = try_login(forms.LoginForm(request.POST))
         if not logged_in: errors.append('Incorrect username or password')
+        else: return redirect('/home')
 
     if logged_in:
         pass

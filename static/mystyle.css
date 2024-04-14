@@ -74,3 +74,13 @@ button:hover {
     background-color: ghostwhite;
     color: black;
 }
+
+a {
+    color: #4ac1f7;
+}
+
+a:hover {
+    color: black;
+    background-color: #4ac1f7;
+    text-decoration: none;
+}

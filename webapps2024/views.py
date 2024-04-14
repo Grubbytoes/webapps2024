@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.contrib.auth import logout
+from django.shortcuts import render, redirect
 
 
 def home(request):
@@ -9,3 +10,8 @@ def home(request):
     }
 
     return render(request, 'home.html', context)
+
+
+def do_logout(request):
+    logout(request)
+    return redirect('/home')
