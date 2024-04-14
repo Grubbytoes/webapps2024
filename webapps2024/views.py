@@ -2,4 +2,10 @@ from django.shortcuts import render
 
 
 def home(request):
-    return render(request, 'home.html')
+    # Variables
+    context = {
+        'page_title': "Home",
+        'logged_in':  request.user.is_authenticated
+    }
+
+    return render(request, 'home.html', context)

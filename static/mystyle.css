@@ -61,11 +61,16 @@ form {
     }
 }
 
-input {
+input, button{
     border: 2px solid ghostwhite;
     margin: 2px;
     padding: 5px 4px 2px 4px;
     color: ghostwhite;
     font-family: "Lucida Console", "Courier New", monospace;
     background-color: black;
+}
+
+button:hover {
+    background-color: ghostwhite;
+    color: black;
 }

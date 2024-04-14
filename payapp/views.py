@@ -1,8 +1,9 @@
 from django.contrib.auth import login as auth_login
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from . import forms, models
 
+# Global functions
 
 # Create your views here.
 
@@ -28,7 +29,7 @@ def login(request):
             return False
 
         auth_login(request, user_by_name)
-        return True
+        return redirect('/home')
 
     if request.method == "POST":
         logged_in = try_login(forms.LoginForm(request.POST))
@@ -43,3 +44,11 @@ def login(request):
             'errors': errors,
             'logged_in': False
         })
+
+
+def logout(request):
+    if not request.user.is_authenticated:
+        return redirect('/home')
+    else:
+        context = {'page_name': 'logout from payapp', 'logged_in': True}
+        return render(request, 'logout.html', context)
