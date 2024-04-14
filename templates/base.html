@@ -12,9 +12,14 @@
 
 <nav>
     {% if logged_in %}
-        You're logged in <a href="/payapp/logout">log out</a>
+        You're logged in 
+        -- <a href="/payapp/make_payment">Make a Payment</a>
+        -- <a href="/payapp/request_payment">Request a Payment</a>
+        -- <a href="/payapp/logout">Log out</a>
     {% else %}
         You're not logged in:
+        -- <a href="/payapp/login">Login</a>
+        -- <a href="/register">Register</a>
     {% endif %}
 </nav>
 

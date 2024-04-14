@@ -53,3 +53,11 @@ def logout(request):
     else:
         context = {'page_name': 'logout from payapp', 'logged_in': True}
         return render(request, 'logout.html', context)
+
+
+def make_payment(request):
+    return None
+
+
+def request_payment(request):
+    return None

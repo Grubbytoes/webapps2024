@@ -3,5 +3,5 @@
 {% block content %}
     ARE YOU SURE YOU WANT TO LOG OUT? <br>
     <button onclick="window.location.replace('/_do_logout')">Yes, I'm sure</button>
-    <button>...Nah!</button>
+    <button onclick="history.back()">...Nah!</button>
 {% endblock %}
