@@ -9,32 +9,27 @@
 </head>
 
 <body>
-<h1>W:\PayApp24\{{ page_title|title }}>_</h1>
+
+<nav>
+    {% if logged_in %}
+        You're logged in
+    {% else %}
+        You're not logged in
+    {% endif %}
+</nav>
+
+<header>
+    <h1>W:\PayApp24\{{ page_title|title }}>_</h1>
+</header>
 
 <section>
-    <div id="sidebar">
-        <ul>
-            <li>t</li>
-            <li>e</li>
-            <li>s</li>
-            <li>t</li>
-            <li>i</li>
-            <li>n</li>
-            <li>g</li>
-        </ul>
-    </div>
-
     <div id="content">
         {% block content %}
         {% endblock %}
     </div>
 
-    <div id="sidebar">Testing</div>
+    <div class="sidebar">Testing</div>
 </section>
-
-<footer>
-    Testing
-</footer>
 
 </body>
 </html>

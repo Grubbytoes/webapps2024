@@ -40,5 +40,6 @@ def login(request):
         return render(request, 'default_form.html', {
             'page_title': 'login',
             'form': forms.LoginForm(),
-            'errors': errors
+            'errors': errors,
+            'logged_in': False
         })

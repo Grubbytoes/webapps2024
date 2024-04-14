@@ -2,17 +2,24 @@ body {
     font-family: "Lucida Console", "Courier New", monospace;
     background-color: black;
     color: ghostwhite;
+    margin: 0;
+    height: 100vh;
 }
 
 h1 {
     color: gold;
-    margin: 25px;
 }
 
-aside {
-    clear: right;
-    float: right;
-    width: 20%;
+nav {
+    margin: 10px;
+}
+
+header {
+    background-color: dimgrey;
+    margin: 0;
+    padding: 20px;
+    border-bottom: #555555;
+    border-bottom-width: 2px;
 }
 
 footer {
@@ -24,17 +31,14 @@ section {
     display: flex;
 }
 
-#sidebar {
+.sidebar {
     height: auto;
     flex-grow: 1;
-}
-
-#sidebar {
-    height: auto;
-    flex-grow: 1;
+    background-color: #1b1b1b;
 }
 
 #content {
+    margin: 8px;
     height: auto;
     flex-grow: 6;
 }
