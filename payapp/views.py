@@ -51,13 +51,35 @@ def logout(request):
     if not request.user.is_authenticated:
         return redirect('/home')
     else:
-        context = {'page_name': 'logout from payapp', 'logged_in': True}
+        context = {'page_title': 'logout from payapp', 'logged_in': True}
         return render(request, 'logout.html', context)
 
 
 def make_payment(request):
-    return None
+    # Variables
+    logged_in = request.user.is_authenticated
+    errors = []
+    context = {
+        'page_title': 'Make a payment',
+        'form': forms.MakePayment(),
+        'errors': errors,
+        'logged_in': logged_in
+    }
+
+    # Template
+    return render(request, 'default_form.html', context)
 
 
 def request_payment(request):
-    return None
+    # Variables
+    logged_in = request.user.is_authenticated
+    errors = []
+    context = {
+        'page_title': 'Request a payment',
+        'form': forms.RequestPayment(),
+        'errors': errors,
+        'logged_in': logged_in
+    }
+
+    # Template
+    return render(request, 'default_form.html', context)

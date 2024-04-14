@@ -32,15 +32,16 @@ section {
 }
 
 .sidebar {
+    padding: 8px;
     height: auto;
-    flex-grow: 1;
+    width: 15%;
     background-color: #1b1b1b;
 }
 
 #content {
     margin: 8px;
     height: auto;
-    flex-grow: 6;
+    width: 85%;
 }
 
 #error
@@ -70,7 +71,7 @@ input, button{
     background-color: black;
 }
 
-button:hover {
+button:hover, input:hover {
     background-color: ghostwhite;
     color: black;
 }
