@@ -7,9 +7,10 @@ class LoginForm(forms.Form):
 
 
 class MakePayment(forms.Form):
-    payment_to = forms.CharField(label="Recipient Username")
+    recipient = forms.CharField(label="Recipient Username")
     value = forms.IntegerField(label="Amount", widget=forms.TextInput)
 
 
-class RequestPayment(MakePayment):
-    pass
+class RequestPayment(forms.Form):
+    sender = forms.CharField(label="Sender Username")
+    value = forms.IntegerField(label="Amount", widget=forms.TextInput)

@@ -66,6 +66,30 @@ def make_payment(request):
         'logged_in': logged_in
     }
 
+    # Functions
+    def try_make_payment(form_: forms.MakePayment) -> bool:
+        if not form_.is_valid():
+            return False
+
+        # Get data out of the form
+        form_data = form_.cleaned_data
+
+        # Search for the recipient
+        query = models.UserAccount.objects.filter(username=form_data['recipient'])
+        if not query.exists():
+            errors.append('User "{0}" could not be found'.format(form_data['recipient']))
+            return False
+
+        recipient = query[0]
+
+    # POST
+    if request.method == 'POST':
+        form_in = forms.MakePayment(request.POST)
+        success = try_make_payment(form_in)
+
+        if success:
+            return "DONE"
+
     # Template
     return render(request, 'default_form.html', context)
 
@@ -80,6 +104,10 @@ def request_payment(request):
         'errors': errors,
         'logged_in': logged_in
     }
+
+    # POST
+    if request.method == 'POST':
+        pass
 
     # Template
     return render(request, 'default_form.html', context)
