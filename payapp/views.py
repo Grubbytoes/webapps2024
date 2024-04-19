@@ -1,4 +1,5 @@
 from django.contrib.auth import login as auth_login
+from django.db import transaction
 from django.shortcuts import render, redirect
 
 from . import forms, models
@@ -73,14 +74,35 @@ def make_payment(request):
 
         # Get data out of the form
         form_data = form_.cleaned_data
+        sender = request.user.holding
+        amount: int
+
+        # Make sure the amount if valid
+        try:
+            amount = int(form_data['value'])
+        except ValueError:
+            errors.append("\"{}\" is not a valid amount of money".format(form_data['value']))
+            return False
+
+        # Make sure they can afford it
+        if sender.balance < amount:
+            errors.append("Your balance is not enough for this transaction")
 
         # Search for the recipient
         query = models.UserAccount.objects.filter(username=form_data['recipient'])
         if not query.exists():
             errors.append('User "{0}" could not be found'.format(form_data['recipient']))
             return False
+        recipient: models.Holding = query[0].holding
 
-        recipient = query[0]
+        # NOW we have our recipient, we are ready to make a transaction:
+        with transaction.atomic():
+            sender.balance += amount
+            recipient.balance -= amount
+
+            sender.save()
+            recipient.save()
+            return True
 
     # POST
     if request.method == 'POST':

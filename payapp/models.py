@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
@@ -17,7 +18,7 @@ class Holding(models.Model):
     """
     The amount of money an account has
     """
-    account = models.OneToOneField(UserAccount, on_delete=models.CASCADE, primary_key=True)
+    account = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, primary_key=True)
     balance = models.PositiveIntegerField()
     currency = models.CharField(max_length=3, choices=CURRENCIES, default="GBP")
 
