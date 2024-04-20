@@ -97,8 +97,8 @@ def make_payment(request):
 
         # NOW we have our recipient, we are ready to make a transaction:
         with transaction.atomic():
-            sender.balance += amount
-            recipient.balance -= amount
+            sender.balance -= amount
+            recipient.balance += amount
 
             sender.save()
             recipient.save()
