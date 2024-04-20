@@ -2,6 +2,7 @@ from django.contrib.auth import login as auth_login
 from django.db import transaction
 from django.shortcuts import render, redirect
 
+from webapps2024.views import default_context
 from . import forms, models
 
 # Global functions
@@ -37,8 +38,8 @@ def login(request):
         if not logged_in: errors.append('Incorrect username or password')
         else: return redirect('/home')
 
-    if logged_in:
-        pass
+    # if logged_in:
+    #     pass
     else:
         return render(request, 'default_form.html', {
             'page_title': 'login',
@@ -52,20 +53,18 @@ def logout(request):
     if not request.user.is_authenticated:
         return redirect('/home')
     else:
-        context = {'page_title': 'logout from payapp', 'logged_in': True}
+        context = default_context(request, "log out")
         return render(request, 'logout.html', context)
 
 
 def make_payment(request):
     # Variables
-    logged_in = request.user.is_authenticated
     errors = []
-    context = {
-        'page_title': 'Make a payment',
+    context = default_context(request, "make payment")
+    context.update({
         'form': forms.MakePayment(),
-        'errors': errors,
-        'logged_in': logged_in
-    }
+        'errors': errors
+    })
 
     # Functions
     def try_make_payment(form_: forms.MakePayment) -> bool:
@@ -120,12 +119,11 @@ def request_payment(request):
     # Variables
     logged_in = request.user.is_authenticated
     errors = []
-    context = {
-        'page_title': 'Request a payment',
+    context = default_context(request, "request payment")
+    context.update({
         'form': forms.RequestPayment(),
-        'errors': errors,
-        'logged_in': logged_in
-    }
+        'errors': errors
+    })
 
     # POST
     if request.method == 'POST':

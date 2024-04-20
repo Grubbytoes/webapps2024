@@ -48,6 +48,7 @@ def register(request):
 
     # Have they logged in?
     if ok:
+
         return redirect("/")
     else:
         return render(request, 'default_form.html', {
