@@ -8,9 +8,17 @@
         <input type="submit" value="Submit">
     </form>
     
-    <ul id="error">
-        {% for e in errors %}
-            <li>{{ e }}</li>
-        {% endfor %}
-    </ul>
+    {% if success %}
+        <p id="success">
+            {{ success }}
+        </p>
+    {% endif %}
+    
+    {% if errors %}
+        <ul id="error">
+            {% for e in errors %}
+                <li>{{ e }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 {% endblock %}

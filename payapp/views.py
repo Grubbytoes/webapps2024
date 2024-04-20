@@ -110,7 +110,7 @@ def make_payment(request):
         success = try_make_payment(form_in)
 
         if success:
-            return "DONE"
+            context['success'] = "Payment made! make another?"
 
     # Template
     return render(request, 'default_form.html', context)

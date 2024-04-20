@@ -49,6 +49,11 @@ section {
     color: tomato;
 }
 
+#success
+{
+    color: lawngreen;
+}
+
 form {
     div {
         width: 30%;

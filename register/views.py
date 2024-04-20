@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from . import forms
 from payapp import models
 
@@ -48,7 +48,7 @@ def register(request):
 
     # Have they logged in?
     if ok:
-        pass
+        return redirect("/")
     else:
         return render(request, 'default_form.html', {
             'page_title': 'register new user',
