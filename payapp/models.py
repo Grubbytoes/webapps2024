@@ -8,6 +8,12 @@ class UserAccount(AbstractUser):
         _holding = self.holding
         return "{:.2f} {}".format(_holding.balance, _holding.currency)
 
+    def get_payments_made(self) -> int:
+        return Transaction.objects.filter(sender__account=self).count()
+
+    def get_payments_received(self) -> int:
+        return Transaction.objects.filter(recipient__account=self).count()
+
 CURRENCIES = {
     "USD": "American Dollar",
     "GBP": "Pound Sterling",

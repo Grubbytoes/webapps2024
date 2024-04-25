@@ -137,7 +137,9 @@ def my_account(request):
     context = default_context(request, 'my account')
     context.update(
         {
-            "balance": request.user.balance_str()
+            "balance": request.user.balance_str(),
+            "payments_made": request.user.get_payments_made(),
+            "payments_received": request.user.get_payments_received()
         }
     )
 
