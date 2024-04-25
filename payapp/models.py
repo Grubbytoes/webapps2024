@@ -4,8 +4,9 @@ from django.db import models
 
 
 class UserAccount(AbstractUser):
-    pass
-
+    def balance_str(self) -> str:
+        _holding = self.holding
+        return "{:.2f} {}".format(_holding.balance, _holding.currency)
 
 CURRENCIES = {
     "USD": "American Dollar",

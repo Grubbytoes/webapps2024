@@ -137,7 +137,7 @@ def my_account(request):
     context = default_context(request, 'my account')
     context.update(
         {
-            "balance": request.user.holding.balance
+            "balance": request.user.balance_str()
         }
     )
 
