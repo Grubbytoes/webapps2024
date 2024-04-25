@@ -131,3 +131,14 @@ def request_payment(request):
 
     # Template
     return render(request, 'default_form.html', context)
+
+
+def my_account(request):
+    context = default_context(request, 'my account')
+    context.update(
+        {
+            "balance": request.user.holding.balance
+        }
+    )
+
+    return  render(request, 'my_account.html', context)
