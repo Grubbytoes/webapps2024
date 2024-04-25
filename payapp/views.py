@@ -101,6 +101,12 @@ def make_payment(request):
 
             sender.save()
             recipient.save()
+
+            # Finally, log the transaction
+            t = models.Transaction(value=amount)
+            t.sender = sender
+            t.recipient = recipient
+            t.save()
             return True
 
     # POST
