@@ -14,6 +14,16 @@ class UserAccount(AbstractUser):
     def get_payments_received(self) -> int:
         return Transaction.objects.filter(recipient__account=self).count()
 
+    @staticmethod
+    def user_by_name(name:str):
+        queryset = UserAccount.objects.filter(username=name)
+        try:
+            return queryset[0]
+        except IndexError:
+            return None
+
+
+
 CURRENCIES = {
     "USD": "American Dollar",
     "GBP": "Pound Sterling",
@@ -29,13 +39,26 @@ class Holding(models.Model):
     balance = models.PositiveIntegerField()
     currency = models.CharField(max_length=3, choices=CURRENCIES, default="GBP")
 
-    def send_payment(self, recipient: Holding, amount) -> int:
+    def send_payment(self, recipient_name: str, amount) -> int:
         """
         Makes a payment
         :param recipient: Account to receive money
-        :param amount: Amount it be sent, in sender's native ourrency
-        :return: 1 if successful, 0 if transaction was aborted
+        :param amount: Amount it be sent, in sender's native currency
+        :return:
+        * 1 if successful
+        * 0 if transaction was aborted:
+        * -1 if insufficient funds
+        * -2 if recipient cannot be found
         """
+        # Do we have enough money?
+        if amount > self.balance: return -1
+
+        # Get the recipient
+        recipient = UserAccount.user_by_name(recipient_name)
+        if recipient is None:
+            return -2
+
+        # Do the thing
         code = 0
         try:
             with transaction.atomic():
@@ -48,8 +71,8 @@ class Holding(models.Model):
                 recipient.save()
 
                 # Log the transaction
-                t = models.Transaction(value=amount)
-                t.sender = sender
+                t = Transaction(value=amount)
+                t.sender = self
                 t.recipient = recipient
                 t.save()
                 code = 1

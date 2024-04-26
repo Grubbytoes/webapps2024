@@ -69,6 +69,7 @@ def make_payment(request):
     # Functions
     def try_make_payment(form_: forms.MakePayment) -> bool:
         if not form_.is_valid():
+            errors.append("There was a problem: the form sent is invalid")
             return False
 
         # Get data out of the form
@@ -83,29 +84,23 @@ def make_payment(request):
             errors.append("\"{}\" is not a valid amount of money".format(form_data['value']))
             return False
 
-        # Make sure they can afford it
-        if sender.balance < amount:
-            errors.append("Your balance is not enough for this transaction")
-
-        # Search for the recipient
-        query = models.UserAccount.objects.filter(username=form_data['recipient'])
-        if not query.exists():
-            errors.append('User "{0}" could not be found'.format(form_data['recipient']))
-            return False
-        recipient: models.Holding = query[0].holding
-
-        # NOW we have our recipient, we are ready to make a transaction:
-        sender.send_payment(recipient, amount)
-        return True
+        code = sender.send_payment(form_data['recipient'], amount)
+        if code == 1:
+            return True
+        elif code == -1:
+            errors.append("Payment cannot be made as you have insufficient funds")
+        elif code == -2:
+            errors.append("That user could not be found, are you sure you got the name right?")
+        else:
+            errors.append("Something went wrong, no money has left your account")
+        return False
 
     # POST
     if request.method == 'POST':
         form_in = forms.MakePayment(request.POST)
-        success = try_make_payment(form_in)
-
-        if success:
+        if try_make_payment(form_in):
             context['success'] = "Payment made! make another?"
-
+    # GET or payment unsuccessful
     # Template
     return render(request, 'default_form.html', context)
 
