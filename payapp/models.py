@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-
+from django.db import transaction
 
 class UserAccount(AbstractUser):
     def balance_str(self) -> str:
@@ -28,6 +28,34 @@ class Holding(models.Model):
     account = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, primary_key=True)
     balance = models.PositiveIntegerField()
     currency = models.CharField(max_length=3, choices=CURRENCIES, default="GBP")
+
+    def send_payment(self, recipient: Holding, amount) -> int:
+        """
+        Makes a payment
+        :param recipient: Account to receive money
+        :param amount: Amount it be sent, in sender's native ourrency
+        :return: 1 if successful, 0 if transaction was aborted
+        """
+        code = 0
+        try:
+            with transaction.atomic():
+                # Transfer money
+                self.balance -= amount
+                recipient.balance += amount
+
+                # Save
+                self.save()
+                recipient.save()
+
+                # Log the transaction
+                t = models.Transaction(value=amount)
+                t.sender = sender
+                t.recipient = recipient
+                t.save()
+                code = 1
+        finally:
+            return code
+
 
 
 class Transaction(models.Model):

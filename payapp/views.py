@@ -73,7 +73,7 @@ def make_payment(request):
 
         # Get data out of the form
         form_data = form_.cleaned_data
-        sender = request.user.holding
+        sender: models.Holding = request.user.holding
         amount: int
 
         # Make sure the amount if valid
@@ -95,19 +95,8 @@ def make_payment(request):
         recipient: models.Holding = query[0].holding
 
         # NOW we have our recipient, we are ready to make a transaction:
-        with transaction.atomic():
-            sender.balance -= amount
-            recipient.balance += amount
-
-            sender.save()
-            recipient.save()
-
-            # Finally, log the transaction
-            t = models.Transaction(value=amount)
-            t.sender = sender
-            t.recipient = recipient
-            t.save()
-            return True
+        sender.send_payment(recipient, amount)
+        return True
 
     # POST
     if request.method == 'POST':
