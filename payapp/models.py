@@ -3,6 +3,9 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.db import transaction
 
+
+## MODEL CLASSES
+
 class UserAccount(AbstractUser):
     def balance_str(self) -> str:
         _holding = self.holding
@@ -15,13 +18,12 @@ class UserAccount(AbstractUser):
         return Transaction.objects.filter(recipient__account=self).count()
 
     @staticmethod
-    def user_by_name(name:str):
+    def user_by_name(name: str):
         queryset = UserAccount.objects.filter(username=name)
         try:
             return queryset[0]
         except IndexError:
             return None
-
 
 
 CURRENCIES = {
@@ -88,9 +90,25 @@ class Holding(models.Model):
         finally:
             return code
 
+    def send_request(self, recipient, amount):
+
+
 
 class Transaction(models.Model):
     sender = models.ForeignKey(Holding, name="sender", on_delete=models.CASCADE, related_name="sent_from")
     recipient = models.ForeignKey(Holding, name="recipient", on_delete=models.CASCADE, related_name="received_by")
     value = models.PositiveIntegerField(verbose_name="Value (as outgoing)")
     date_made = models.DateTimeField(auto_now_add=1)
+
+
+class Request(models.Model):
+    pass
+
+# GLOBAL FUNCTIONS
+
+def find_user_holding(user: AbstractUser) -> Holding | None:
+    query = Holding.objects.filter(account=user)
+    if query.exists():
+        return query[0]
+    else:
+        return None
