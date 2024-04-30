@@ -1,0 +1,4 @@
+
+* Fix login bug
+* Add notifications section, even if it has no functionality
+* Send payment requests

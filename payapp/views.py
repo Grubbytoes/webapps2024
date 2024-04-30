@@ -22,7 +22,7 @@ def login(request):
 
         # Try and find a user of the right name
         query = models.UserAccount.objects.filter(username=data['username'])
-        if query is None:
+        if len(query) == 0:
             return False
 
         # Check password
@@ -40,13 +40,12 @@ def login(request):
 
     # if logged_in:
     #     pass
-    else:
-        return render(request, 'default_form.html', {
-            'page_title': 'login',
-            'form': forms.LoginForm(),
-            'errors': errors,
-            'logged_in': False
-        })
+    return render(request, 'default_form.html', {
+        'page_title': 'login',
+        'form': forms.LoginForm(),
+        'errors': errors,
+        'logged_in': False
+    })
 
 
 def logout(request):
