@@ -118,7 +118,7 @@ def request_payment(request):
 
     # POST
     if request.method == 'POST':
-        pass
+
 
     # Template
     return render(request, 'default_form.html', context)

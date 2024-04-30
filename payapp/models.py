@@ -91,7 +91,7 @@ class Holding(models.Model):
             return code
 
     def send_request(self, recipient, amount):
-
+        pass
 
 
 class Transaction(models.Model):
@@ -102,7 +102,14 @@ class Transaction(models.Model):
 
 
 class Request(models.Model):
-    pass
+    STATUSES = {
+        'PEN': 'pending',
+        'ACC': 'accepted',
+        'REJ': 'rejected'
+    }
+
+    transaction_requested = models.OneToOneField(Transaction, on_delete=models.CASCADE, primary_key=True)
+    status = models.CharField(max_length=3, choices=STATUSES, default='PEN')
 
 # GLOBAL FUNCTIONS
 
