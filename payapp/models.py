@@ -49,14 +49,25 @@ class Holding(models.Model):
         * 0 if transaction was aborted:
         * -1 if insufficient funds
         * -2 if recipient cannot be found
+        * -3 Attempt to send money to yourself
+        * -4 Attempt to send negative money or zero
         """
         # Do we have enough money?
-        if amount > self.balance: return -1
+        if amount > self.balance:
+            return -1
+
+        # Attempt to sent negative or zero money
+        if amount <= 0:
+            return -4
 
         # Get the recipient
         recipient = UserAccount.user_by_name(recipient_name)
         if recipient is None:
             return -2
+        recipient = recipient.holding
+
+        if recipient == self:
+            return -3
 
         # Do the thing
         code = 0
@@ -64,10 +75,8 @@ class Holding(models.Model):
             with transaction.atomic():
                 # Transfer money
                 self.balance -= amount
-                recipient.balance += amount
-
-                # Save
                 self.save()
+                recipient.balance += amount
                 recipient.save()
 
                 # Log the transaction
@@ -78,7 +87,6 @@ class Holding(models.Model):
                 code = 1
         finally:
             return code
-
 
 
 class Transaction(models.Model):

@@ -63,7 +63,8 @@ def make_payment(request):
     context = default_context(request, "make payment")
     context.update({
         'form': forms.MakePayment(),
-        'errors': errors
+        'errors': errors,
+        'description': "Send money to another MyPayApp user"
     })
 
     # Functions
@@ -75,11 +76,12 @@ def make_payment(request):
         # Get data out of the form
         form_data = form_.cleaned_data
         sender: models.Holding = request.user.holding
-        amount: int
+        amount: float
 
         # Make sure the amount if valid
         try:
-            amount = int(form_data['value'])
+            amount = float(form_data['value'])
+            amount = round(amount, 2)
         except ValueError:
             errors.append("\"{}\" is not a valid amount of money".format(form_data['value']))
             return False

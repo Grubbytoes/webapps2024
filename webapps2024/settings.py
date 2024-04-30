@@ -36,7 +36,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "payapp.apps.PayappConfig",
-    "register.apps.RegisterConfig"
+    "register.apps.RegisterConfig",
+    "rest_framework"
 ]
 
 MIDDLEWARE = [

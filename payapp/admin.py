@@ -6,3 +6,4 @@ from payapp import models
 # Register your models here.
 admin.site.register(models.UserAccount, UserAdmin)
 admin.site.register(models.Holding, ModelAdmin)
+admin.site.register(models.Transaction, ModelAdmin)

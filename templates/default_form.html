@@ -1,7 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <p>Please enter your details here!</p>
+    {% if description %}
+        <p>{{ description }}</p>
+    {% endif %}
+    <p><b>Please enter details below!</b></p>
     <form method="post">
         {% csrf_token %}
         {{ form }}

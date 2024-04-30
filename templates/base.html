@@ -13,6 +13,7 @@
 <nav>
     {% if logged_in %}
         <b>{{ user.username }} :</b> You're logged in
+        -- <a href="/payapp/my_account">View My Account</a>
         -- <a href="/payapp/make_payment">Make a Payment</a>
         -- <a href="/payapp/request_payment">Request a Payment</a>
         -- <a href="/payapp/logout">Log out</a>
@@ -32,8 +33,6 @@
         {% block content %}
         {% endblock %}
     </div>
-
-    <div class="sidebar">Testing</div>
 </section>
 
 </body>
