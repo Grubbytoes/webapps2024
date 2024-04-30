@@ -38,8 +38,6 @@ def login(request):
         if not logged_in: errors.append('Incorrect username or password')
         else: return redirect('/home')
 
-    # if logged_in:
-    #     pass
     return render(request, 'default_form.html', {
         'page_title': 'login',
         'form': forms.LoginForm(),
@@ -74,7 +72,7 @@ def make_payment(request):
 
         # Get data out of the form
         form_data = form_.cleaned_data
-        sender: models.Holding = request.user.holding
+        sender: models.Holding = models.find_user_holding(request.user)
         amount: float
 
         # Make sure the amount if valid
@@ -105,7 +103,6 @@ def make_payment(request):
     # Template
     return render(request, 'default_form.html', context)
 
-
 def request_payment(request):
     # Variables
     logged_in = request.user.is_authenticated
@@ -116,9 +113,26 @@ def request_payment(request):
         'errors': errors
     })
 
+    def try_make_request(form_: forms.RequestPayment):
+        if not form_.is_valid():
+            errors.append("There was a problem: the form sent is invalid")
+            return False
+
+        # Get data out of the form
+        form_data = form_.cleaned_data
+        requested_from = models.find_user_holding(form_data['sender'])
+        requested_by = models.find_user_holding(request.user)
+
+        if requested_from is None:
+            errors.append("No such user exists, are you sure you got their name right?")
+            return False
+
+
+
     # POST
     if request.method == 'POST':
-
+        if try_make_request(forms.RequestPayment(request.POST)):
+            context['success'] = "A request has been sent!"
 
     # Template
     return render(request, 'default_form.html', context)

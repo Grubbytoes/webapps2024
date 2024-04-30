@@ -105,7 +105,8 @@ class Request(models.Model):
     STATUSES = {
         'PEN': 'pending',
         'ACC': 'accepted',
-        'REJ': 'rejected'
+        'REJ': 'rejected',
+        'WIT': 'withdrawn'
     }
 
     transaction_requested = models.OneToOneField(Transaction, on_delete=models.CASCADE, primary_key=True)
