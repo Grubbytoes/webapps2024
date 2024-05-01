@@ -82,7 +82,7 @@ class Holding(models.Model):
                 recipient.save()
 
                 # Log the transaction
-                t = Transaction(value=amount)
+                t = Transaction(value=amount, executed=True)
                 t.sender = self
                 t.recipient = recipient
                 t.save()
@@ -98,7 +98,7 @@ class Transaction(models.Model):
     sender = models.ForeignKey(Holding, name="sender", on_delete=models.CASCADE, related_name="sent_from")
     recipient = models.ForeignKey(Holding, name="recipient", on_delete=models.CASCADE, related_name="received_by")
     value = models.PositiveIntegerField(verbose_name="Value (as outgoing)")
-    date_made = models.DateTimeField(auto_now_add=1)
+    date_made = models.DateTimeField(auto_now_add=1, blank=True)
     executed = models.BooleanField(default=False)
 
 
@@ -112,6 +112,13 @@ class Request(models.Model):
 
     transaction_requested = models.OneToOneField(Transaction, on_delete=models.CASCADE)
     status = models.CharField(max_length=3, choices=STATUSES, default='PEN')
+
+    @staticmethod
+    def request_transaction(to_send: Holding, to_receive: Holding, amount_requested: int):
+        new_transaction = Transaction(sender=to_send, recipient=to_receive, value=amount_requested)
+        new_request = Request(transaction_requested=new_transaction)
+        new_transaction.save()
+        new_request.save()
 
 
 # GLOBAL FUNCTIONS
