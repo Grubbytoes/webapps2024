@@ -7,3 +7,4 @@ from payapp import models
 admin.site.register(models.UserAccount, UserAdmin)
 admin.site.register(models.Holding, ModelAdmin)
 admin.site.register(models.Transaction, ModelAdmin)
+admin.site.register(models.Request, ModelAdmin)

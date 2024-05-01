@@ -69,8 +69,17 @@ class Holding(models.Model):
         finally:
             return success
 
-    def send_request(self, recipient, amount):
-        pass
+    def send_request(self, payment_from: 'Holding', amount_requested) -> bool:
+        new_request = Request(sender=payment_from, recipient=self)
+        new_request.value = payment_from.convert_to_native_currency(amount_requested, self.currency)
+        new_request.save()
+        return True
+
+    def convert_to_native_currency(self, amount, currency_from) -> float:
+        if self.currency == currency_from:
+            return amount
+        else:
+            raise Exception("YOU HAVEN'T DONE THIS YET HUGO YOU DUMB FUCK")
 
 
 class AbstractMoneyMovement(models.Model):

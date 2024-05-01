@@ -117,16 +117,20 @@ def request_payment(request):
             errors.append("There was a problem: the form sent is invalid")
             return False
 
-        # Get data out of the form
         form_data = form_.cleaned_data
-        requested_from = models.find_user_holding(form_data['sender'])
-        requested_by = models.find_user_holding(request.user)
+        requested_from_account = models.UserAccount.user_by_name(form_data['sender'])
+        requested_by = request.user.holding
 
-        if requested_from is None:
+        if requested_from_account is None:
             errors.append("No such user exists, are you sure you got their name right?")
             return False
+        elif requested_from_account == request.user:
+            errors.append("You cannot request money from yourself.")
+            return False
+        requested_from = requested_from_account.holding
 
-
+        requested_by.send_request(requested_from, form_data['value'])
+        return True
 
     # POST
     if request.method == 'POST':
