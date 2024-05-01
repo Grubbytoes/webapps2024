@@ -8,9 +8,10 @@ class LoginForm(forms.Form):
 
 class MakePayment(forms.Form):
     recipient = forms.CharField(label="Recipient Username")
-    value = forms.IntegerField(label="Amount", widget=forms.TextInput)
+    value = forms.FloatField(label="Amount", widget=forms.TextInput, min_value=0, step_size=0.01)
 
 
 class RequestPayment(forms.Form):
     sender = forms.CharField(label="Sender Username")
-    value = forms.IntegerField(label="Amount", widget=forms.TextInput)
+    value = forms.FloatField(label="Amount", widget=forms.TextInput, min_value=0, step_size=0.01)
+

@@ -69,36 +69,35 @@ def make_payment(request):
         if not form_.is_valid():
             errors.append("There was a problem: the form sent is invalid")
             return False
-
-        # Get data out of the form
         form_data = form_.cleaned_data
-        sender: models.Holding = models.find_user_holding(request.user)
-        amount: float
+        sender: models.Holding = request.user.holding
+        recipient_user = models.UserAccount.user_by_name(form_data['recipient'])
+        amount_to_pay = form_data['value']
 
         # Make sure the amount if valid
-        try:
-            amount = float(form_data['value'])
-            amount = round(amount, 2)
-        except ValueError:
-            errors.append("\"{}\" is not a valid amount of money".format(form_data['value']))
+        if sender.balance < amount_to_pay:
+            errors.append("Sorry, you do not have enough money to make this payment")
             return False
+        elif recipient_user is None:
+            errors.append("That user could not be found, are you sure you got their name right?")
+            return False
+        elif recipient_user == request.user:
+            errors.append("You cannot send money to yourself")
+            return False
+        recipient_holding = recipient_user.holding
 
-        code = sender.send_payment(form_data['recipient'], amount)
-        if code == 1:
-            return True
-        elif code == -1:
-            errors.append("Payment cannot be made as you have insufficient funds")
-        elif code == -2:
-            errors.append("That user could not be found, are you sure you got the name right?")
-        else:
+        # MAKE IT SO
+        if not sender.send_payment(recipient=recipient_holding, amount=amount_to_pay):
             errors.append("Something went wrong, no money has left your account")
-        return False
+        else:
+            return True
 
     # POST
     if request.method == 'POST':
         form_in = forms.MakePayment(request.POST)
         if try_make_payment(form_in):
             context['success'] = "Payment made! make another?"
+
     # GET or payment unsuccessful
     # Template
     return render(request, 'default_form.html', context)

@@ -41,38 +41,17 @@ class Holding(models.Model):
     balance = models.PositiveIntegerField()
     currency = models.CharField(max_length=3, choices=CURRENCIES, default="GBP")
 
-    def send_payment(self, recipient_name: str, amount) -> int:
+    def send_payment(self, recipient: 'Holding', amount) -> bool:
         """
-        Makes a payment
-        :param recipient: Account to receive money
-        :param amount: Amount it be sent, in sender's native currency
+        Sends money, and saves the transaction as a log. does NOT check to see whether balance is sufficient,
+        not negative etc.
+
+        :param recipient:
+        :param amount:
         :return:
-        * 1 if successful
-        * 0 if transaction was aborted:
-        * -1 if insufficient funds
-        * -2 if recipient cannot be found
-        * -3 Attempt to send money to yourself
-        * -4 Attempt to send negative money or zero
         """
-        # Do we have enough money?
-        if amount > self.balance:
-            return -1
 
-        # Attempt to sent negative or zero money
-        if amount <= 0:
-            return -4
-
-        # Get the recipient
-        recipient = UserAccount.user_by_name(recipient_name)
-        if recipient is None:
-            return -2
-        recipient = recipient.holding
-
-        if recipient == self:
-            return -3
-
-        # Do the thing
-        code = 0
+        success = False
         try:
             with transaction.atomic():
                 # Transfer money
@@ -86,11 +65,9 @@ class Holding(models.Model):
                 t.sender = self
                 t.recipient = recipient
                 t.save()
-                code = 1
-        except Exception:
-            pass
+                success = True
         finally:
-            return code
+            return success
 
     def send_request(self, recipient, amount):
         pass
