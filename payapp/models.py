@@ -99,6 +99,7 @@ class Transaction(models.Model):
     recipient = models.ForeignKey(Holding, name="recipient", on_delete=models.CASCADE, related_name="received_by")
     value = models.PositiveIntegerField(verbose_name="Value (as outgoing)")
     date_made = models.DateTimeField(auto_now_add=1)
+    executed = models.BooleanField(default=False)
 
 
 class Request(models.Model):
@@ -109,8 +110,9 @@ class Request(models.Model):
         'WIT': 'withdrawn'
     }
 
-    transaction_requested = models.OneToOneField(Transaction, on_delete=models.CASCADE, primary_key=True)
+    transaction_requested = models.OneToOneField(Transaction, on_delete=models.CASCADE)
     status = models.CharField(max_length=3, choices=STATUSES, default='PEN')
+
 
 # GLOBAL FUNCTIONS
 
