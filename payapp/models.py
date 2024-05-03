@@ -82,6 +82,10 @@ class Holding(models.Model):
             raise Exception("YOU HAVEN'T DONE THIS YET HUGO YOU DUMB FUCK")
 
 
+class Notification(models.Model):
+    user = models.ForeignKey(UserAccount, name="user notified", on_delete=models.CASCADE)
+
+
 class AbstractMoneyMovement(models.Model):
     sender = models.ForeignKey(Holding, name="sender", on_delete=models.CASCADE, related_name="sent_from")
     recipient = models.ForeignKey(Holding, name="recipient", on_delete=models.CASCADE, related_name="received_by")
