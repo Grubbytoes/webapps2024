@@ -17,6 +17,13 @@ class UserAccount(AbstractUser):
     def get_payments_received(self) -> int:
         return Transaction.objects.filter(recipient__account=self).count()
 
+    def clear_notifications(self):
+        for n in self.get_notifications():
+            n.delete()
+
+    def get_notifications(self):
+        return Notification.objects.filter(user=self)
+
     @staticmethod
     def user_by_name(name: str):
         queryset = UserAccount.objects.filter(username=name)
