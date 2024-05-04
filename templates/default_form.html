@@ -1,27 +1,36 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block extra_links %}
+    <link rel="stylesheet" href="{% static 'mystyle-collumns.css' %}">
+{% endblock %}
 
 {% block content %}
-    {% if description %}
-        <p>{{ description }}</p>
-    {% endif %}
-    <p><b>Please enter details below!</b></p>
-    <form method="post">
-        {% csrf_token %}
-        {{ form }}
-        <input type="submit" value="Submit">
-    </form>
-    
-    {% if success %}
-        <p id="success">
-            {{ success }}
-        </p>
-    {% endif %}
-    
-    {% if errors %}
-        <ul id="error">
-            {% for e in errors %}
-                <li>{{ e }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
+    <div class="row">
+        <div class="column-narrow">
+            bruh
+            {{ description }}
+        </div>
+        <div class="column-wide">
+            <p><b>Please enter details below!</b></p>
+            <form method="post">
+                {% csrf_token %}
+                {{ form }}
+                <input type="submit" value="Submit">
+            </form>
+            {% if success %}
+                <p id="success">
+                    {{ success }}
+                </p>
+            {% endif %}
+
+            {% if errors %}
+                <ul id="error">
+                    {% for e in errors %}
+                        <li>{{ e }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+    </div>
 {% endblock %}

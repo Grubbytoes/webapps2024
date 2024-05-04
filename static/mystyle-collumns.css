@@ -5,3 +5,11 @@
 .column {
     flex: 100%;
 }
+
+.column-wide {
+    flex: 162%;
+}
+
+.column-narrow {
+    flex: 62%;
+}
