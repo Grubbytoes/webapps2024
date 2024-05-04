@@ -5,17 +5,27 @@
         <tr id="your_balance">
             <td><b>Your Balance</b></td>
             <td>:</td>
-            <td>{{ balance }}</td>
+            <td>{{ account_data.balance }}</td>
         </tr>
         <tr id="payments_made">
             <td><b>Payments Made</b></td>
             <td>:</td>
-            <td> {{ payments_made }}</td>
+            <td> {{ account_data.payments_made }} </td>
         </tr>        
         <tr id="payments_received">
             <td><b>Payments Received</b></td>
             <td>:</td>
-            <td> {{ payments_received }}</td>
+            <td> {{ account_data.payments_received }} </td>
+        </tr>        
+        <tr id="requests_sent">
+            <td><b>Requests Sent</b></td>
+            <td>:</td>
+            <td> {{ account_data.requests_sent }} </td>
+        </tr>        
+        <tr id="requests_received">
+            <td><b>Requests received</b></td>
+            <td>:</td>
+            <td> {{ account_data.requests_received }} </td>
         </tr>
     </table>
 {% endblock %}

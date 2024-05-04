@@ -143,13 +143,12 @@ def request_payment(request):
 
 def my_account(request):
     context = default_context(request, 'my account')
-    context.update(
-        {
-            "balance": request.user.balance_str(),
-            "payments_made": request.user.get_payments_made(),
-            "payments_received": request.user.get_payments_received(),
-            "notifications": request.user.get_notifications().count()
-        }
-    )
-
+    account_data = {
+        "balance": request.user.balance_str(),
+        "payments_made": request.user.payments_made_count(),
+        "payments_received": request.user.payments_received_count(),
+        "requests_sent": request.user.requests_sent_count(),
+        "requests_received": request.user.requests_received_count()
+    }
+    context["account_data"] = account_data
     return render(request, 'my_account.html', context)

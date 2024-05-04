@@ -11,11 +11,18 @@ class UserAccount(AbstractUser):
         _holding = self.holding
         return "{:.2f} {}".format(_holding.balance, _holding.currency)
 
-    def get_payments_made(self) -> int:
+    def payments_made_count(self) -> int:
         return Transaction.objects.filter(sender__account=self).count()
 
-    def get_payments_received(self) -> int:
+    def payments_received_count(self) -> int:
         return Transaction.objects.filter(recipient__account=self).count()
+
+    def requests_sent_count(self) -> int:
+        # As in a requests for a transaction, where the recipient would be this account
+        return Request.objects.filter(recipient__account=self).count()
+
+    def requests_received_count(self) -> int:
+        return Transaction.objects.filter(sender__account=self).count()
 
     def clear_notifications(self):
         for n in self.get_notifications():
