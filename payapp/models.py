@@ -90,7 +90,7 @@ class Holding(models.Model):
 
 
 class Notification(models.Model):
-    user = models.ForeignKey(UserAccount, name="user notified", on_delete=models.CASCADE)
+    user = models.ForeignKey(UserAccount, name="user", on_delete=models.CASCADE)
 
 
 class AbstractMoneyMovement(models.Model):

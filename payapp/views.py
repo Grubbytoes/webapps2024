@@ -147,8 +147,9 @@ def my_account(request):
         {
             "balance": request.user.balance_str(),
             "payments_made": request.user.get_payments_made(),
-            "payments_received": request.user.get_payments_received()
+            "payments_received": request.user.get_payments_received(),
+            "notifications": request.user.get_notifications().count()
         }
     )
 
-    return  render(request, 'my_account.html', context)
+    return render(request, 'my_account.html', context)
