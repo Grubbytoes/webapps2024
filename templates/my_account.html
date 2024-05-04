@@ -1,31 +1,47 @@
+
 {% extends 'base.html' %}
+{% load static %}
+
+{% block extra_links %}
+    <link rel="stylesheet" href="{% static 'mystyle-collumns.css' %}">
+{% endblock %}
 
 {% block content %}
-    <table>
-        <tr id="your_balance">
-            <td><b>Your Balance</b></td>
-            <td>:</td>
-            <td>{{ account_data.balance }}</td>
-        </tr>
-        <tr id="payments_made">
-            <td><b>Payments Made</b></td>
-            <td>:</td>
-            <td> {{ account_data.payments_made }} </td>
-        </tr>        
-        <tr id="payments_received">
-            <td><b>Payments Received</b></td>
-            <td>:</td>
-            <td> {{ account_data.payments_received }} </td>
-        </tr>        
-        <tr id="requests_sent">
-            <td><b>Requests Sent</b></td>
-            <td>:</td>
-            <td> {{ account_data.requests_sent }} </td>
-        </tr>        
-        <tr id="requests_received">
-            <td><b>Requests received</b></td>
-            <td>:</td>
-            <td> {{ account_data.requests_received }} </td>
-        </tr>
-    </table>
+    <div class="row">
+        <div class="column">
+            Hello, World!
+        </div>
+        <div class="column">
+            Hello, World!
+        </div>
+        <div class="column">
+            <table>
+                <tr id="your_balance">
+                    <td><b>Your Balance</b></td>
+                    <td>:</td>
+                    <td>{{ account_data.balance }}</td>
+                </tr>
+                <tr id="payments_made">
+                    <td><b>Payments Made</b></td>
+                    <td>:</td>
+                    <td> {{ account_data.payments_made }} </td>
+                </tr>
+                <tr id="payments_received">
+                    <td><b>Payments Received</b></td>
+                    <td>:</td>
+                    <td> {{ account_data.payments_received }} </td>
+                </tr>
+                <tr id="requests_sent">
+                    <td><b>Requests Sent</b></td>
+                    <td>:</td>
+                    <td> {{ account_data.requests_sent }} </td>
+                </tr>
+                <tr id="requests_received">
+                    <td><b>Requests received</b></td>
+                    <td>:</td>
+                    <td> {{ account_data.requests_received }} </td>
+                </tr>
+            </table>
+        </div>
+    </div>
 {% endblock %}
