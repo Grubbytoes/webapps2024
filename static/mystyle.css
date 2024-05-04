@@ -6,6 +6,11 @@ body {
     height: 100vh;
 }
 
+p {
+    text-align: justify;
+    text-justify: inter-word;
+}
+
 h1 {
     color: gold;
 }

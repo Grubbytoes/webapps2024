@@ -141,7 +141,7 @@ def request_payment(request):
             context['success'] = "A request has been sent!"
 
     # Template
-    return render(request, 'make_a_payment.html', context)
+    return render(request, 'request_a_payment.html', context)
 
 
 def my_account(request):

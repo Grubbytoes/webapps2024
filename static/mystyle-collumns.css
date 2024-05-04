@@ -4,12 +4,15 @@
 
 .column {
     flex: 100%;
+    padding-right: 20px;
 }
 
 .column-wide {
     flex: 162%;
+    padding-right: 20px;
 }
 
 .column-narrow {
     flex: 62%;
+    padding-right: 20px;
 }
