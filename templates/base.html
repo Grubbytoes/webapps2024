@@ -16,8 +16,13 @@
         -- <a href="/payapp/my_account">View My Account</a>
         -- <a href="/payapp/make_payment">Make a Payment</a>
         -- <a href="/payapp/request_payment">Request a Payment</a>
-        -- <a href="/payapp/request_payment">Notifications{% if notifications %}[{{ notifications }}]{% endif %}</a>
-        <a href="/payapp/logout" style="float: right">Log out</a>
+        -- 
+        {% if notifications %}
+            <b><a href="/payapp/request_payment" id="notifications">Notifications[{{ notifications }}]</a></b>
+        {% else %}
+            <a href="/payapp/request_payment">Notifications</a>
+        {% endif %}
+        <a href="/payapp/logout" id="logout-button">Log out</a>
     {% else %}
         You're not logged in:
         -- <a href="/payapp/login">Login</a>

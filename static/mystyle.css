@@ -38,6 +38,20 @@ footer {
     margin: 8px;
 }
 
+#logout-button {
+    color: tomato;
+    float: right;
+    margin-right: 4%;
+}  #logout-button:hover {
+    color: black;
+    background-color: tomato;
+
+}
+
+#notifications {
+    color: springgreen;
+}
+
 #error
 {
     color: tomato;
