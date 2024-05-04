@@ -102,7 +102,7 @@ def make_payment(request):
 
     # GET or payment unsuccessful
     # Template
-    return render(request, 'base_form.html', context)
+    return render(request, 'make_a_payment.html', context)
 
 
 def request_payment(request):
@@ -141,7 +141,7 @@ def request_payment(request):
             context['success'] = "A request has been sent!"
 
     # Template
-    return render(request, 'send_payment.html', context)
+    return render(request, 'make_a_payment.html', context)
 
 
 def my_account(request):
