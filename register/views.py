@@ -51,7 +51,7 @@ def register(request):
 
         return redirect("/")
     else:
-        return render(request, 'default_form.html', {
+        return render(request, 'base_form.html', {
             'page_title': 'register new user',
             'form': forms.RegisterForm(),
             'errors': errors

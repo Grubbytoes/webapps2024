@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect
 from webapps2024.views import default_context
 from . import forms, models
 
+
 # Global functions
 
 # Create your views here.
@@ -35,10 +36,12 @@ def login(request):
 
     if request.method == "POST":
         logged_in = try_login(forms.LoginForm(request.POST))
-        if not logged_in: errors.append('Incorrect username or password')
-        else: return redirect('/home')
+        if not logged_in:
+            errors.append('Incorrect username or password')
+        else:
+            return redirect('/home')
 
-    return render(request, 'default_form.html', {
+    return render(request, 'base_form.html', {
         'page_title': 'login',
         'form': forms.LoginForm(),
         'errors': errors,
@@ -61,7 +64,6 @@ def make_payment(request):
     context.update({
         'form': forms.MakePayment(),
         'errors': errors,
-        'description': "Send money to another MyPayApp user"
     })
 
     # Functions
@@ -100,7 +102,8 @@ def make_payment(request):
 
     # GET or payment unsuccessful
     # Template
-    return render(request, 'default_form.html', context)
+    return render(request, 'base_form.html', context)
+
 
 def request_payment(request):
     # Variables
@@ -138,7 +141,7 @@ def request_payment(request):
             context['success'] = "A request has been sent!"
 
     # Template
-    return render(request, 'default_form.html', context)
+    return render(request, 'send_payment.html', context)
 
 
 def my_account(request):
