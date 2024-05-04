@@ -27,10 +27,6 @@ footer {
     justify-self: center;
 }
 
-section {
-    display: flex;
-}
-
 .sidebar {
     padding: 8px;
     height: auto;
@@ -40,8 +36,6 @@ section {
 
 #content {
     margin: 8px;
-    height: auto;
-    width: 100%;
 }
 
 #error
