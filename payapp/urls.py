@@ -7,5 +7,6 @@ urlpatterns = [
     path('logout', views.logout),
     path('make_payment', views.make_payment),
     path('request_payment', views.request_payment),
-    path('my_account', views.my_account)
+    path('my_account', views.my_account),
+    path('my_notifications', views.my_notifications)
 ]

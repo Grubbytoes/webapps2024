@@ -155,3 +155,7 @@ def my_account(request):
     }
     context["account_data"] = account_data
     return render(request, 'my_account.html', context)
+
+
+def my_notifications(request):
+    return render(request, "my_notifications.html", default_context(request, "My Notifications"))
