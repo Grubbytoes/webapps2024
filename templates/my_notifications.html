@@ -11,6 +11,7 @@
     <div class="row">
         <div class="column-narrow">
             <h3>The Beatles - With a Little Help from my Friends</h3>
+            <p>
             What would you think if I sang out of tune?
             Would you stand up and walk out on me?
             Lend me your ears and I'll sing you a song
@@ -18,6 +19,8 @@
             Oh, I get by with a little help from my friends
             Mm, I get high with a little help from my friends
             Mm, gonna try with a little help from my friends
+            </p>
+            <p>
             What do I do when my love is away?
             Does it worry you to be alone?
             How do I feel by the end of the day?
@@ -25,10 +28,14 @@
             No, I get by with a little help from my friends
             Mm, get high with a little help from my friends
             Mm, gonna try with a little help from my friends
+            </p>
+            <p>
             Do you need anybody?
             I need somebody to love
             Could it be anybody?
             I want somebody to love
+            </p>
+            <p>
             Would you believe in a love at first sight?
             Yes, I'm certain that it happens all the time
             What do you see when you turn out the light?
@@ -36,15 +43,20 @@
             Oh, I get by with a little help from my friends
             Mm, get high with a little help from my friends
             Oh, I'm gonna try with a little help from my friends
+            </p>
+            <p>
             Do you need anybody?
             I just need someone to love
             Could it be anybody?
             I want somebody to love
+            </p>
+            <p>
             Oh, I get by with a little help from my friends
             Mm, gonna try with a little help from my friends
             Oh, I get high with a little help from my friends
             Yes, I get by with a little help from my friends
             With a little help from my friends
+            </p>
         </div>
         <div class="column-wide">
             <div class="row">
@@ -60,6 +72,9 @@
                 <hr class="notif-div">
                 {{ n }}
             {% endfor %}
+            {%  if not notification_list %}
+                <p style="color: gray">Look Ma, no notifications!</p>
+            {% endif %}
             </div>
         </div>
     </div>
