@@ -159,5 +159,9 @@ def my_account(request):
 
 def my_notifications(request):
     context = default_context(request, "My Notifications")
+
+    if 'clear_notifications' in request.GET:
+        request.user.clear_notifications()
+
     context["notification_list"] = request.user.get_notifications()
     return render(request, "my_notifications.html", context)

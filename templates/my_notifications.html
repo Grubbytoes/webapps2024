@@ -10,6 +10,7 @@
 {% block content %}
     <div class="row">
         <div class="column-narrow">
+            <h3>The Beatles - With a Little Help from my Friends</h3>
             What would you think if I sang out of tune?
             Would you stand up and walk out on me?
             Lend me your ears and I'll sing you a song
@@ -46,7 +47,14 @@
             With a little help from my friends
         </div>
         <div class="column-wide">
-            <h3>notifications go here</h3>
+            <div class="row">
+                <div class="column"><h3>notifications go here</h3></div>
+                <div class="column"><br>
+                    <form method="get"> {% csrf_token %}
+                    <button type="submit" name="clear_notifications">CLEAR NOTIFICATIONS</button>
+                    </form>
+                </div>
+                </div>
             <div id="notification_list">
             {% for n in notification_list %}
                 <hr class="notif-div">
