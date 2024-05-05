@@ -158,4 +158,6 @@ def my_account(request):
 
 
 def my_notifications(request):
-    return render(request, "my_notifications.html", default_context(request, "My Notifications"))
+    context = default_context(request, "My Notifications")
+    context["view_notifications"] = ["some notification" for i in range(10)]
+    return render(request, "my_notifications.html", context)

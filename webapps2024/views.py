@@ -6,7 +6,8 @@ def default_context(_request, page_title: str) -> dict:
     context = {
         'page_title': page_title,
         'logged_in': _request.user.is_authenticated,
-        'user': _request.user
+        'user': _request.user,
+        'notification_count': _request.user.notification_count()
     }
     return context
 

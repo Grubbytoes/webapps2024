@@ -18,8 +18,8 @@
         -- <a href="/payapp/make_payment">Make a Payment</a>
         -- <a href="/payapp/request_payment">Request a Payment</a>
         -- 
-        {% if notifications %}
-            <b><a href="/payapp/my_notifications" id="notifications">Notifications[{{ notifications }}]</a></b>
+        {% if notification_count %}
+            <b><a href="/payapp/my_notifications" id="notifications">Notifications[{{ notification_count }}]</a></b>
         {% else %}
             <a href="/payapp/my_notifications">Notifications</a>
         {% endif %}

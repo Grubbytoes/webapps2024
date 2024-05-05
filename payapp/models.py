@@ -44,6 +44,9 @@ class UserAccount(AbstractUser):
     def get_notifications(self):
         return Notification.objects.filter(user=self)
 
+    def notification_count(self):
+        return self.get_notifications().count()
+
     @staticmethod
     def user_by_name(name: str):
         queryset = UserAccount.objects.filter(username=name)
