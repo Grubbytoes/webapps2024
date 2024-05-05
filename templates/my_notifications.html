@@ -46,7 +46,11 @@
             With a little help from my friends
         </div>
         <div class="column-wide">
-            notifications go here
+            <h3>notifications go here</h3>
+            {% for n in notifications %}
+                <hr class="notif-div">
+                This is a notification
+            {% endfor %}
         </div>
     </div>
 {% endblock %}
