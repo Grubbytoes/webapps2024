@@ -163,5 +163,5 @@ def my_notifications(request):
     if 'clear_notifications' in request.GET:
         request.user.clear_notifications()
 
-    context["notification_list"] = request.user.get_notifications()
+    context["notification_list"] = request.user.notification_list()
     return render(request, "my_notifications.html", context)

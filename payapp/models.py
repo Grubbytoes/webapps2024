@@ -17,6 +17,9 @@ class UserAccount(AbstractUser):
         _holding = self.holding
         return "{:.2f} {}".format(_holding.balance, _holding.currency)
 
+    def name_str(self):
+        return "{} {} [{}]".format(self.first_name, self.last_name, self.username)
+
     def payments_made(self):
         return Transaction.objects.filter(sender__account=self)
 
@@ -53,6 +56,9 @@ class UserAccount(AbstractUser):
     def notification_count(self):
         return self.get_notifications().count()
 
+    def notification_list(self):
+        return [n.message for n in self.get_notifications()]
+
     @staticmethod
     def user_by_name(name: str):
         queryset = UserAccount.objects.filter(username=name)
@@ -86,7 +92,7 @@ class Holding(models.Model):
                 # Transfer money
                 self.balance -= amount
                 self.save()
-                recipient.receive_payment(amount, self.currency)
+                recipient.receive_payment(amount, self.currency, sent_from=self.account.name_str())
 
                 # Log the transaction
                 t = Transaction(value=amount)
@@ -101,6 +107,8 @@ class Holding(models.Model):
         new_request = Request(sender=payment_from, recipient=self)
         new_request.value = payment_from.convert_to_native_currency(amount_requested, self.currency)
         new_request.save()
+
+        payment_from.receive_request(amount_requested, self.currency, request_from=self.account.name_str())
         return True
 
     def convert_to_native_currency(self, amount, currency_from) -> float:
@@ -109,7 +117,7 @@ class Holding(models.Model):
         else:
             raise Exception("YOU HAVEN'T DONE THIS YET HUGO YOU DUMB FUCK")
 
-    def receive_payment(self, amount, currency, sent_from = "Someone"):
+    def receive_payment(self, amount, currency, sent_from="Someone"):
         """
         Receives the amount of money in the given currency, and saves a notification
         """
@@ -118,6 +126,19 @@ class Holding(models.Model):
         self.save()
 
         new_notification = Notification(user=self.account)
+        new_notification.message = "{} sent you {} {}".format(sent_from, amount_in, self.currency)
+        if currency != self.currency:
+            new_notification.message += " [{} {}].".format(amount, currency)
+        else:
+            new_notification.message += "."
+        new_notification.save()
+
+    def receive_request(self, amount_requested, currency, request_from="Someone"):
+        new_notification = Notification(user=self.account)
+        amount_in_native = self.convert_to_native_currency(amount_requested, currency)
+        new_notification.message = "{} has requested you send them {} {}.".format(
+            request_from, amount_in_native, self.currency
+        )
         new_notification.save()
 
 
