@@ -14,7 +14,6 @@ def default_context(_request, page_title: str) -> dict:
 def home(request):
     # Variables
     context = default_context(request, "home")
-
     return render(request, 'home.html', context)
 
 
