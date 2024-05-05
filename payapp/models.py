@@ -3,6 +3,12 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.db import transaction
 
+CURRENCIES = {
+    "USD": "American Dollar",
+    "GBP": "Pound Sterling",
+    "EUR": "Euro"
+}
+
 
 ## MODEL CLASSES
 
@@ -56,13 +62,6 @@ class UserAccount(AbstractUser):
             return None
 
 
-CURRENCIES = {
-    "USD": "American Dollar",
-    "GBP": "Pound Sterling",
-    "EUR": "Euro"
-}
-
-
 class Holding(models.Model):
     """
     The amount of money an account has
@@ -87,8 +86,7 @@ class Holding(models.Model):
                 # Transfer money
                 self.balance -= amount
                 self.save()
-                recipient.balance += amount
-                recipient.save()
+                recipient.receive_payment(amount, self.currency)
 
                 # Log the transaction
                 t = Transaction(value=amount)
@@ -111,9 +109,21 @@ class Holding(models.Model):
         else:
             raise Exception("YOU HAVEN'T DONE THIS YET HUGO YOU DUMB FUCK")
 
+    def receive_payment(self, amount, currency, sent_from = "Someone"):
+        """
+        Receives the amount of money in the given currency, and saves a notification
+        """
+        amount_in = self.convert_to_native_currency(amount, currency)
+        self.balance += amount_in
+        self.save()
+
+        new_notification = Notification(user=self.account)
+        new_notification.save()
+
 
 class Notification(models.Model):
     user = models.ForeignKey(UserAccount, name="user", on_delete=models.CASCADE)
+    message = models.TextField(max_length=256, default="Nothing happened")
 
 
 class AbstractMoneyMovement(models.Model):

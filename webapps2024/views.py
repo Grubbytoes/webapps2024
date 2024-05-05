@@ -7,8 +7,11 @@ def default_context(_request, page_title: str) -> dict:
         'page_title': page_title,
         'logged_in': _request.user.is_authenticated,
         'user': _request.user,
-        'notification_count': _request.user.notification_count()
     }
+    if context['logged_in']:
+        context.update({
+            'notification_count': _request.user.notification_count()
+        })
     return context
 
 def home(request):
