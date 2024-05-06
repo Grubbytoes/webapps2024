@@ -15,9 +15,9 @@
         {% for payment in payment_list %}
             <div class="payment-log">
                 <hr class="greyed">
-                <p>Sent to William Gowland [will]</p>
-                <p>amount: 100 GBP</p>
-                <p>date-time: </p>
+                <p>{% if payment.0 %}TO ->{% else %}FROM <-{% endif %} {{ payment.1 }}</p>
+                <p>amount: {{ payment.2 }}</p>
+                <p>date-time: {{ payment.3 }}</p>
             </div>
         {% endfor %}
         </div>

@@ -169,7 +169,37 @@ def my_notifications(request):
 
 def my_payments(request):
     context = default_context(request, "My Payments")
-    context["payment_list"] = request.user.payments_all()
+    payments_all = request.user.payments_all()
+    payments_list = []
+
+    # Build the payments list as a human-readable thing
+    for p in payments_all:
+        sent = (p.sender == request.user.holding)
+        stuff: tuple
+        if sent:
+            # Then, this is a payment we sent
+            stuff = (
+                True,
+                p.recipient.account.name_str(),
+                models.format_for_currency(p.value, p.sender.currency),
+                p.date_made
+            )
+        else:
+            # This is a payment we received
+            stuff = (
+                False,
+                p.sender.account.name_str(),
+                # This is ugly
+                models.format_for_currency(
+                    p.recipient.convert_to_native_currency(p.value, p.sender.currency),
+                    p.recipient.currency
+                ),
+                p.date_made
+            )
+        payments_list.append(stuff)
+
+
+    context["payment_list"] = payments_list
     return render(request, "user_info/my_payments.html", context)
     
 

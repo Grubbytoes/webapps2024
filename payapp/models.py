@@ -10,12 +10,15 @@ CURRENCIES = {
 }
 
 
+def format_for_currency(value, currency="GBP"):
+    return "{:.2f} {}".format(value, currency)
+
+
 ## MODEL CLASSES
 
 class UserAccount(AbstractUser):
     def balance_str(self) -> str:
-        _holding = self.holding
-        return "{:.2f} {}".format(_holding.balance, _holding.currency)
+        return format_for_currency(self.holding.balance, self.holding.currency)
 
     def name_str(self):
         return "{} {} [{}]".format(self.first_name, self.last_name, self.username)
@@ -173,6 +176,7 @@ class Request(AbstractMoneyMovement):
 class Transaction(AbstractMoneyMovement):
     executed = models.BooleanField(default=False)
     requested = models.OneToOneField(Request, null=True, default=None, on_delete=models.SET_NULL)
+
 
 # GLOBAL FUNCTIONS
 
