@@ -41,7 +41,7 @@ def login(request):
         else:
             return redirect('/home')
 
-    return render(request, 'base_form.html', {
+    return render(request, 'forms/base_form.html', {
         'page_title': 'login',
         'form': forms.LoginForm(),
         'errors': errors,
@@ -102,7 +102,7 @@ def make_payment(request):
 
     # GET or payment unsuccessful
     # Template
-    return render(request, 'make_a_payment.html', context)
+    return render(request, 'forms/make_a_payment.html', context)
 
 
 def request_payment(request):
@@ -141,7 +141,7 @@ def request_payment(request):
             context['success'] = "A request has been sent!"
 
     # Template
-    return render(request, 'request_a_payment.html', context)
+    return render(request, 'forms/request_a_payment.html', context)
 
 
 def my_account(request):
