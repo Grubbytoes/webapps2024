@@ -8,14 +8,20 @@
         </div>
         
         <div class="column">
-            <h3>Payment log</h3>
+            <h3>Payment log</h3>            
+        {% if not request_list %}
+            <div class="greyed">Look Ma, no payments!</div>
+        {% endif %}
+        {% for request in request_list %}
             <div class="payment-log">
                 <hr class="greyed">
                 <p>Sent to William Gowland [will]</p>
                 <p>amount: 100 GBP</p>
                 <p>date-time: </p>
             </div>
+        {% endfor %}
         </div>
+
     
         <div class="column-narrow">
             <h3>See more</h3>

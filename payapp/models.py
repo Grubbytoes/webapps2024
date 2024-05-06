@@ -26,13 +26,19 @@ class UserAccount(AbstractUser):
     def payments_received(self):
         return Transaction.objects.filter(recipient__account=self)
 
+    def payments_all(self):
+        return self.payments_received() | self.payments_made()
+
     def requests_sent(self):
         # As in a requests for a transaction, where the recipient would be this account
         return Request.objects.filter(recipient__account=self)
 
     def requests_received(self):
         # As in, requested transactions where this account WOULD be the sender
-        return Transaction.objects.filter(sender__account=self)
+        return Request.objects.filter(sender__account=self)
+
+    def requests_all(self):
+        return self.requests_received() | self.requests_sent()
 
     def payments_made_count(self) -> int:
         return self.payments_made().count()

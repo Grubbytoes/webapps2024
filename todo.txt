@@ -9,6 +9,7 @@ WOULD BE NICE
 * Delete individual notification
 * Accept requests from send payment screen
 * 'Partially' accept requests, IE send less money than requested
+* filter requests, payments, notifications, etc.
 
 RATES
 USD:GBP -- 0.8
