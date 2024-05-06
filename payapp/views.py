@@ -154,7 +154,7 @@ def my_account(request):
         "requests_received": request.user.requests_received_count()
     }
     context["account_data"] = account_data
-    return render(request, 'my_account.html', context)
+    return render(request, 'user_info/my_account.html', context)
 
 
 def my_notifications(request):
@@ -164,4 +164,14 @@ def my_notifications(request):
         request.user.clear_notifications()
 
     context["notification_list"] = request.user.notification_list()
-    return render(request, "my_notifications.html", context)
+    return render(request, "user_info/my_notifications.html", context)
+
+
+def my_payments(request):
+    context = default_context(request, "My Payments")
+    return render(request, "user_info/my_payments.html", context)
+    
+
+def my_requests(request):
+    context = default_context(request, "My requests")
+    return render(request, "user_info/my_requests.html", context)

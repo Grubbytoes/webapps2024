@@ -3,6 +3,7 @@ ESSENTIAL
 * Accept or reject requests
 * Set up screen (select your currency)
 * implement currency conversion
+* Check which pages are login-required
 
 WOULD BE NICE
 * Delete individual notification

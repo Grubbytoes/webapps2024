@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    
+    <div class="row">
+        <div class="column-narrow">
+            <h3>About</h3>
+        </div>
+
+        <div class="column">
+            <h3>Payment log</h3>
+            <div class="payment-log">
+                <hr class="greyed">
+                <p>You requested from William Gowland [will]</p>
+                <p>amount: 100 GBP</p>
+                <p>status: <em class="greyed">pending</em></p>
+            </div>
+        </div>
+
+        <div class="column-narrow">
+            <h3>See more</h3>
+            <ul>
+                <li><a href="/payapp/my_account">View my account</a></li>
+                <li><a href="/payapp/my_payments">View my payments</a></li>
+            </ul>
+        </div>
+    </div>
+    
+{% endblock %}
