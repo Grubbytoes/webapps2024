@@ -1,5 +1,6 @@
 from django.contrib.auth import login as auth_login
 from django.db import transaction
+from django.http import HttpResponseBadRequest
 from django.shortcuts import render, redirect
 
 from webapps2024.views import default_context
@@ -205,6 +206,25 @@ def my_requests(request):
     requests_all = request.user.requests_all()
     request_list = []
 
+    if 'acc_req' in request.GET:
+        req_id = request.GET.get('acc_req')
+        req = models.Request.objects.get(pk=req_id)
+
+        # Guard against false requests
+        if req.sender != request.user.holding:
+            return HttpResponseBadRequest()
+
+        return render(request, 'user_info/accept_request.html', context)
+    elif 'rej_req' in request.GET:
+        req_id = request.GET.get('rej_req')
+        req = models.Request.objects.get(pk=req_id)
+
+        # Guard against false requests
+        if req.sender != request.user.holding:
+            return HttpResponseBadRequest()
+
+        return render(request, 'user_info/reject_request.html', context)
+
     for r in requests_all:
         sent = (r.recipient == request.user.holding)
         stuff: tuple
@@ -217,7 +237,7 @@ def my_requests(request):
         else:
             # A request made OF US
             stuff = (
-                False, r.recipient.account.name_str(), r.value_str(), r.date_made, r.status
+                False, r.recipient.account.name_str(), r.value_str(), r.date_made, r.status, r.id
             )
 
         request_list.append(stuff)

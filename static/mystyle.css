@@ -32,45 +32,6 @@ footer {
     justify-self: center;
 }
 
-.sidebar {
-    padding: 8px;
-    height: auto;
-    width: 15%;
-    background-color: #1b1b1b;
-}
-
-#content {
-    margin: 8px;
-}
-
-#logout-button {
-    color: tomato;
-    float: right;
-    margin-right: 4%;
-}  #logout-button:hover {
-    color: black;
-    background-color: tomato;
-
-}
-
-#notifications {
-    color: springgreen;
-}
-
-.red-error
-{
-    color: tomato;
-}
-
-.green-success
-{
-    color: lawngreen;
-}
-
-.greyed {
-    color: dimgrey;
-}
-
 form {
     div {
         width: 40%;
@@ -107,4 +68,47 @@ a:hover {
 
 hr {
     margin-top: 16px;
+}
+
+.sidebar {
+    padding: 8px;
+    height: auto;
+    width: 15%;
+    background-color: #1b1b1b;
+}
+
+#content {
+    margin: 8px;
+}
+
+#logout-button {
+    color: tomato;
+    float: right;
+    margin-right: 4%;
+}  #logout-button:hover {
+    color: black;
+    background-color: tomato;
+
+}
+
+#notifications {
+    color: springgreen;
+}
+
+.red-error
+{
+    color: tomato;
+} a.red-error:hover {
+    background-color: tomato;
+}
+
+.green-success
+{
+    color: lawngreen;
+} a.green-success:hover {
+      background-color: lawngreen;
+  }
+
+.greyed {
+    color: dimgrey;
 }
