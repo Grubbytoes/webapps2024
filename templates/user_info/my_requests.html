@@ -19,11 +19,15 @@
                 <p>amount: {{ r.2 }}</p>
                 <p>date-time: {{ r.3 }}</p>
                 <p>status:
-                    {% if r.4 == 'PEN' %} <span class="greyed">pending</span>
-                    {% elif r.4 == 'ACC' %} <span class="error">accepted</span>
-                    {% elif r.4 == 'REJ' %} <span class="success">rejected</span>
-                    {% endif %}
+            {% if r.4 == 'PEN' %} <span class="greyed">pending</span>
+            {% elif r.4 == 'ACC' %} <span class="error">accepted</span>
+            {% elif r.4 == 'REJ' %} <span class="success">rejected</span>
+            {% endif %}
                 </p>
+            {% if r.4 == 'PEN' and not r.0%}
+                <p><a class="green-success" href="?acc_req={{ r.5 }}">ACCEPT</a> or <a class="red-error" href="?rej_req={{ r.5 }}">REJECT</a> this request</p>
+            {% endif %}
+                
             </div>
         {% endfor %}
         </div>

@@ -217,7 +217,7 @@ def my_requests(request):
         else:
             # A request made OF US
             stuff = (
-                False, r.recipient.account.name_str(), r.value_str(), r.date_made, r.status
+                False, r.recipient.account.name_str(), r.value_str(), r.date_made, r.status, r.id
             )
 
         request_list.append(stuff)
