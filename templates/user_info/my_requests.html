@@ -12,8 +12,8 @@
         {% if not request_list %}
             <div class="greyed">Look Ma, no requests!</div>
         {% endif %}
-        {% for payment in payment_list %}
-            <div class="payment-log">
+        {% for request in request_list %}
+            <div class="request-log">
                 <hr class="greyed">
                 <p>You requested from William Gowland [will]</p>
                 <p>amount: 100 GBP</p>

@@ -9,10 +9,10 @@
         
         <div class="column">
             <h3>Payment log</h3>            
-        {% if not request_list %}
+        {% if not payment_list %}
             <div class="greyed">Look Ma, no payments!</div>
         {% endif %}
-        {% for request in request_list %}
+        {% for payment in payment_list %}
             <div class="payment-log">
                 <hr class="greyed">
                 <p>Sent to William Gowland [will]</p>

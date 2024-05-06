@@ -169,12 +169,11 @@ def my_notifications(request):
 
 def my_payments(request):
     context = default_context(request, "My Payments")
+    context["payment_list"] = request.user.payments_all()
     return render(request, "user_info/my_payments.html", context)
     
 
 def my_requests(request):
     context = default_context(request, "My requests")
-    request_list = request.user.requests_all()
-    for req in request_list:
-        pass
+    context["request_list"] = request.user.requests_all()
     return render(request, "user_info/my_requests.html", context)
