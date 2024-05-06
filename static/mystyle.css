@@ -103,3 +103,8 @@ a:hover {
     background-color: #4ac1f7;
     text-decoration: none;
 }
+
+.notif-div {
+    margin-top: 16px;
+    color: white;
+}

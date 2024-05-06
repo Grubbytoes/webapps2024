@@ -1,7 +1,17 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    ARE YOU SURE YOU WANT TO LOG OUT? <br>
-    <button onclick="window.location.replace('/_do_logout')">Yes, I'm sure</button>
-    <button onclick="history.back()">...Nah!</button>
+    <div class="row">
+        <div class="column-narrow">
+            <h3>ARE YOU SURE YOU WANT TO LOG OUT?</h3>
+            <p>If you log out, you will no longer have access to most of PayApp24. If you want to access your account
+            you will have to log back in again (duh).</p>
+        </div>
+        <div class="column-wide">
+            <h3>ARE YOU REALLY, REALLY SURE...?</h3>
+            <button onclick="window.location.replace('/_do_logout')">Yes, I'm sure</button>
+            <button onclick="history.back()">...Nah!</button>
+        </div>
+    </div>
+
 {% endblock %}

@@ -1,3 +1,14 @@
+ESSENTIAL
+* View requests sent and received
+* Accept or reject requests
+* Set up screen (select your currency)
+* implement currency conversion
 
-* Add notifications section, even if it has no functionality
-* Send payment requests
+WOULD BE NICE
+* Delete individual notification
+* Accept requests from send payment screen
+* 'Partially' accept requests, IE send less money than requested
+
+RATES
+USD:GBP -- 0.8
+EUR:GBP -- 0.9

@@ -1,17 +1,13 @@
-
 {% extends 'base.html' %}
-{% load static %}
-
-{% block extra_links %}
-    <link rel="stylesheet" href="{% static 'mystyle-collumns.css' %}">
-{% endblock %}
 
 {% block content %}
     <div class="row">
         <div class="column">
+            <h3>ABOUT</h3>
             Hello, World!
         </div>
         <div class="column-wide">
+            <h3>Account data</h3>
             <table>
                 <tr id="your_balance">
                     <td><b>Your Balance</b></td>
@@ -41,7 +37,11 @@
             </table>
         </div>
         <div class="column">
-            Hello, World!
+            <h3>See more</h3>
+            <ul>
+                <li><a>View my payments</a></li>
+                <li><a>View my requests</a></li>
+            </ul>
         </div>
     </div>
 {% endblock %}

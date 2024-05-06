@@ -6,14 +6,17 @@ def default_context(_request, page_title: str) -> dict:
     context = {
         'page_title': page_title,
         'logged_in': _request.user.is_authenticated,
-        'user': _request.user
+        'user': _request.user,
     }
+    if context['logged_in']:
+        context.update({
+            'notification_count': _request.user.notification_count()
+        })
     return context
 
 def home(request):
     # Variables
     context = default_context(request, "home")
-
     return render(request, 'home.html', context)
 
 
