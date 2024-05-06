@@ -13,13 +13,13 @@
                 <input type="submit" value="Submit">
             </form>
             {% if success %}
-                <p id="success">
+                <p class="green-success">
                     {{ success }}
                 </p>
             {% endif %}
 
             {% if errors %}
-                <ul id="error">
+                <ul class="red-error">
                     {% for e in errors %}
                         <li>{{ e }}</li>
                     {% endfor %}

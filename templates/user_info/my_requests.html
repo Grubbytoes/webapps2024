@@ -15,10 +15,15 @@
         {% for r in request_list %}
             <div class="request-log">
                 <hr class="greyed">
-                <p>You requested from William Gowland [will]</p>
-                <p>amount: 100 GBP</p>
-                <p>date-time:</p>
-                <p>status: <em class="greyed">pending</em></p>
+                <p>{% if r.0 %}SENT TO{% else %}REQUEST FROM{% endif %} - {{ r.1 }}</p>
+                <p>amount: {{ r.2 }}</p>
+                <p>date-time: {{ r.3 }}</p>
+                <p>status:
+                    {% if r.4 == 'PEN' %} <span class="greyed">pending</span>
+                    {% elif r.4 == 'ACC' %} <span class="error">accepted</span>
+                    {% elif r.4 == 'REJ' %} <span class="success">rejected</span>
+                    {% endif %}
+                </p>
             </div>
         {% endfor %}
         </div>

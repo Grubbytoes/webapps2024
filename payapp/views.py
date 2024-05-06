@@ -181,7 +181,7 @@ def my_payments(request):
             stuff = (
                 True,
                 p.recipient.account.name_str(),
-                models.format_for_currency(p.value, p.sender.currency),
+                p.value_str(),
                 p.date_made
             )
         else:
@@ -190,10 +190,7 @@ def my_payments(request):
                 False,
                 p.sender.account.name_str(),
                 # This is ugly
-                models.format_for_currency(
-                    p.recipient.convert_to_native_currency(p.value, p.sender.currency),
-                    p.recipient.currency
-                ),
+                p.value_str(format_for_recipient=True),
                 p.date_made
             )
         payments_list.append(stuff)
@@ -205,5 +202,25 @@ def my_payments(request):
 
 def my_requests(request):
     context = default_context(request, "My requests")
-    context["request_list"] = request.user.requests_all()
+    requests_all = request.user.requests_all()
+    request_list = []
+
+    for r in requests_all:
+        sent = (r.recipient == request.user.holding)
+        stuff: tuple
+
+        if sent:
+            # A request we made, IE a request for a transaction where WE are the recipient
+            stuff = (
+                True, r.sender.account.name_str(), r.value_str(format_for_recipient=True), r.date_made, r.status
+            )
+        else:
+            # A request made OF US
+            stuff = (
+                False, r.recipient.account.name_str(), r.value_str(), r.date_made, r.status
+            )
+
+        request_list.append(stuff)
+
+    context["request_list"] = request_list
     return render(request, "user_info/my_requests.html", context)

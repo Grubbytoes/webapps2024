@@ -12,12 +12,12 @@
         {% if not payment_list %}
             <div class="greyed">Look Ma, no payments!</div>
         {% endif %}
-        {% for payment in payment_list %}
+        {% for p in payment_list %}
             <div class="payment-log">
                 <hr class="greyed">
-                <p>{% if payment.0 %}TO ->{% else %}FROM <-{% endif %} {{ payment.1 }}</p>
-                <p>amount: {{ payment.2 }}</p>
-                <p>date-time: {{ payment.3 }}</p>
+                <p>{% if p.0 %}TO ->{% else %}FROM <-{% endif %} {{ p.1 }}</p>
+                <p>amount: {{ p.2 }}</p>
+                <p>date-time: {{ p.3 }}</p>
             </div>
         {% endfor %}
         </div>

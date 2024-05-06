@@ -162,6 +162,17 @@ class AbstractMoneyMovement(models.Model):
     value = models.PositiveIntegerField(verbose_name="Value (as sent)")
     date_made = models.DateTimeField(auto_now_add=1)
 
+    def value_str(self, format_for_recipient=False):
+        if format_for_recipient and self.cross_currency():
+            f = self.recipient.convert_to_native_currency(self.value, self.sender.currency)
+            return format_for_currency(f, self.recipient.currency)
+        else:
+            return format_for_currency(value=self.value, currency=self.sender.currency)
+
+    def cross_currency(self):
+        return self.sender.currency != self.recipient.currency
+
+
 
 class Request(AbstractMoneyMovement):
     STATUSES = {
