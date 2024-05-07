@@ -1,4 +1,16 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    <div class="row">
+        <div class="column"></div>
+        <div class="column">
+            <h3>You are about to <span class="red-error">REJECT</span> the following request:</h3>
+            <p>{{ request_details.1 }} <span class="greyed">to</span> {{ request_details.0 }}</p>
+            <p>You will NOT be able to accept this specific request later - while you can send them money later, this
+            request will still be marked as rejected. They WILL be able to another request. Proceed?</p>
+            <a class="green-success" href="?rej_req={{ request_details.2 }}&proceed">Yes, proceed</a> / 
+            <a class="red-error" href="/payapp/my_requests">No, cancel</a>
+        </div>
+        <div class="column"></div>
+    </div>
 {% endblock content %}

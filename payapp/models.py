@@ -173,7 +173,6 @@ class AbstractMoneyMovement(models.Model):
         return self.sender.currency != self.recipient.currency
 
 
-
 class Request(AbstractMoneyMovement):
     STATUSES = {
         'PEN': 'pending',
@@ -182,6 +181,9 @@ class Request(AbstractMoneyMovement):
         'WIT': 'withdrawn'
     }
     status = models.CharField(max_length=3, choices=STATUSES, default='PEN')
+
+    def is_possible(self):
+        return self.value <= self.sender.balance
 
 
 class Transaction(AbstractMoneyMovement):

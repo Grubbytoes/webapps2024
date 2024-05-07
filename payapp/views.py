@@ -196,10 +196,9 @@ def my_payments(request):
             )
         payments_list.append(stuff)
 
-
     context["payment_list"] = payments_list
     return render(request, "user_info/my_payments.html", context)
-    
+
 
 def my_requests(request):
     context = default_context(request, "My requests")
@@ -214,14 +213,29 @@ def my_requests(request):
         if req.sender != request.user.holding:
             return HttpResponseBadRequest()
 
+        if not req.is_possible():
+            context["impossible"] = True
+        elif "proceed" in request.GET:
+            return None
+        else:
+            context["request_details"] = (
+                req.recipient.account.name_str(), req.value_str(format_for_recipient=True), req.id
+            )
+
         return render(request, 'user_info/accept_request.html', context)
+
     elif 'rej_req' in request.GET:
         req_id = request.GET.get('rej_req')
         req = models.Request.objects.get(pk=req_id)
+        context["request_details"] = (
+            req.recipient.account.name_str(), req.value_str(format_for_recipient=True), req.id
+        )
 
         # Guard against false requests
         if req.sender != request.user.holding:
             return HttpResponseBadRequest()
+        elif "proceed" in request.GET:
+            return None
 
         return render(request, 'user_info/reject_request.html', context)
 

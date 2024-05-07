@@ -1,4 +1,20 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    <div class="row">
+        <div class="column"></div>
+        <div class="column">
+    {% if impossible %}
+            <h3>Oh dear.</h3>
+            <p>It looks like you don't have enough money in your account to make the requested payment.</p>
+    {% else %}
+            <h3>You are about to <span class="green-success">ACCEPT</span> the following request:</h3>
+            <p>{{ request_details.1 }} <span class="greyed">to</span> {{ request_details.0 }}</p>
+            <p>This amount of money will leave your account, proceed?</p>
+            <a class="green-success" href="?acc_req={{ request_details.2 }}&proceed">Yes, proceed</a> / 
+            <a class="red-error" href="/payapp/my_requests">No, cancel</a>
+    {% endif %}
+        </div>
+        <div class="column"></div>
+    </div>
 {% endblock content %}
