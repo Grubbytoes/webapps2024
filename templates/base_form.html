@@ -7,7 +7,7 @@
         </div>
         <div class="column-wide">
             <h3>Fill details below:</h3>
-            <form method="post">
+            <form method="post" {% if form_destination %}action="{{ form_destination }}"{% endif %}>
                 {% csrf_token %}
                 {{ form }}
                 <input type="submit" value="Submit">

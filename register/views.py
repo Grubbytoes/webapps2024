@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect
+
+from webapps2024.views import default_context
 from . import forms
 from payapp import models
 
@@ -48,11 +50,34 @@ def register(request):
 
     # Have they logged in?
     if ok:
-
         return redirect("/")
     else:
-        return render(request, 'forms/base_form.html', {
+        return render(request, 'register/register_account.html', {
             'page_title': 'register new user',
             'form': forms.RegisterForm(),
-            'errors': errors
+            'errors': errors,
+            'form_destination': '/register/setup'
         })
+
+
+def setup(request):
+    if request.method != "POST": return redirect("/register")
+
+    context = default_context(request, 'Set up your account')
+    setup_form = forms.SetUp()
+    context['form'] = setup_form
+    context['form_destination'] = "/register/make_user"
+
+    setup_form.data.update({
+        'username': request.POST['username'],
+        'email': request.POST['email'],
+        'password': request.POST['password']
+    })
+
+    return render(request, 'register/setup_account.html', context)
+
+
+def make_user(request):
+    if request.method != "POST": return redirect("/register")
+
+    setup_form = forms.SetUp(request.POST)

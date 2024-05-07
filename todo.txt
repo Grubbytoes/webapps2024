@@ -1,11 +1,10 @@
 ESSENTIAL
-* View requests sent and received
-* Accept or reject requests
 * Set up screen (select your currency)
 * implement currency conversion
 * Check which pages are login-required
 
 WOULD BE NICE
+* Order payments and request newest first
 * Delete individual notification
 * Accept requests from send payment screen
 * 'Partially' accept requests, IE send less money than requested

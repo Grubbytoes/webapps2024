@@ -42,7 +42,7 @@ def login(request):
         else:
             return redirect('/home')
 
-    return render(request, 'forms/base_form.html', {
+    return render(request, 'base_form.html', {
         'page_title': 'login',
         'form': forms.LoginForm(),
         'errors': errors,
