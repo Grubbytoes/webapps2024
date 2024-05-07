@@ -185,6 +185,23 @@ class Request(AbstractMoneyMovement):
     def is_possible(self):
         return self.value <= self.sender.balance
 
+    def reject(self) -> bool:
+        if self.status == 'PEN':
+            self.status = 'REJ'
+            self.save()
+            return True
+        return False
+
+    def accept(self) -> bool:
+        success = False
+        if self.is_possible() and self.status == 'PEN':
+            success = self.sender.send_payment(self.recipient, self.value)
+        if success:
+            self.status = 'ACC'
+            self.save()
+        return success
+
+
 
 class Transaction(AbstractMoneyMovement):
     executed = models.BooleanField(default=False)

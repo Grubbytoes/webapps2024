@@ -4,16 +4,24 @@
     <div class="row">
         <div class="column"></div>
         <div class="column">
-    {% if impossible %}
+        {% if impossible %}
             <h3>Oh dear.</h3>
             <p>It looks like you don't have enough money in your account to make the requested payment.</p>
-    {% else %}
+        {% elif done %}
+            <h3>Request accepted</h3>
+            <p>Payment made!</p>
+            <a href="/payapp/my_requests">Go back</a>
+        {% elif error %}
+            <h3>Something went wrong</h3>
+            <p>An unexpected problem occurred, <span class="red-error">no money has left your account</span></p>
+            <a href="/payapp/my_requests">Go back</a>
+        {% else %}
             <h3>You are about to <span class="green-success">ACCEPT</span> the following request:</h3>
             <p>{{ request_details.1 }} <span class="greyed">to</span> {{ request_details.0 }}</p>
             <p>This amount of money will leave your account, proceed?</p>
             <a class="green-success" href="?acc_req={{ request_details.2 }}&proceed">Yes, proceed</a> / 
             <a class="red-error" href="/payapp/my_requests">No, cancel</a>
-    {% endif %}
+        {% endif %}
         </div>
         <div class="column"></div>
     </div>

@@ -20,8 +20,8 @@
                 <p>date-time: {{ r.3 }}</p>
                 <p>status:
             {% if r.4 == 'PEN' %} <span class="greyed">pending</span>
-            {% elif r.4 == 'ACC' %} <span class="error">accepted</span>
-            {% elif r.4 == 'REJ' %} <span class="success">rejected</span>
+            {% elif r.4 == 'ACC' %} <span class="green-success">accepted</span>
+            {% elif r.4 == 'REJ' %} <span class="red-error">rejected</span>
             {% endif %}
                 </p>
             {% if r.4 == 'PEN' and not r.0%}
