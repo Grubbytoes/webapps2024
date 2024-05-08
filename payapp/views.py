@@ -1,4 +1,5 @@
 from django.contrib.auth import login as auth_login
+from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.http import HttpResponseBadRequest
 from django.shortcuts import render, redirect
@@ -58,6 +59,7 @@ def logout(request):
         return render(request, 'logout.html', context)
 
 
+@login_required
 def make_payment(request):
     # Variables
     errors = []
@@ -106,9 +108,9 @@ def make_payment(request):
     return render(request, 'forms/make_a_payment.html', context)
 
 
+@login_required
 def request_payment(request):
     # Variables
-    logged_in = request.user.is_authenticated
     errors = []
     context = default_context(request, "request payment")
     context.update({
@@ -145,6 +147,7 @@ def request_payment(request):
     return render(request, 'forms/request_a_payment.html', context)
 
 
+@login_required
 def my_account(request):
     context = default_context(request, 'my account')
     account_data = {
@@ -168,6 +171,7 @@ def my_notifications(request):
     return render(request, "user_info/my_notifications.html", context)
 
 
+@login_required
 def my_payments(request):
     context = default_context(request, "My Payments")
     payments_all = request.user.payments_all()
@@ -176,30 +180,33 @@ def my_payments(request):
     # Build the payments list as a human-readable thing
     for p in payments_all:
         sent = (p.sender == request.user.holding)
-        stuff: tuple
+        stuff: dict
+
         if sent:
             # Then, this is a payment we sent
-            stuff = (
-                True,
-                p.recipient.account.name_str(),
-                p.value_str(),
-                p.date_made
-            )
+            stuff = {
+                'sent': True,
+                'other': p.recipient.account.name_str(),
+                'value': p.value_str(),
+                'datetime': p.date_made
+            }
+            if p.cross_currency(): stuff['other_currency'] = p.recipient.currency
         else:
             # This is a payment we received
-            stuff = (
-                False,
-                p.sender.account.name_str(),
-                # This is ugly
-                p.value_str(format_for_recipient=True),
-                p.date_made
-            )
+            stuff = {
+                "sent": False,
+                "other": p.sender.account.name_str(),
+                "value": p.value_str(format_for_recipient=True),
+                "datetime": p.date_made
+            }
+            if p.cross_currency(): stuff['other_currency'] = p.sender.currency
         payments_list.append(stuff)
 
     context["payment_list"] = payments_list
     return render(request, "user_info/my_payments.html", context)
 
 
+@login_required
 def my_requests(request):
     context = default_context(request, "My requests")
     requests_all = request.user.requests_all()
@@ -246,18 +253,29 @@ def my_requests(request):
 
     for r in requests_all:
         sent = (r.recipient == request.user.holding)
-        stuff: tuple
+        stuff: dict
 
         if sent:
             # A request we made, IE a request for a transaction where WE are the recipient
-            stuff = (
-                True, r.sender.account.name_str(), r.value_str(format_for_recipient=True), r.date_made, r.status
-            )
+            stuff = {
+                "sent": True,
+                "other": r.sender.account.name_str(),
+                "amount": r.value_str(format_for_recipient=True),
+                "datetime": r.date_made,
+                "status": r.status
+            }
+            if r.cross_currency(): stuff['other_currency'] = r.sender.currency
         else:
             # A request made OF US
-            stuff = (
-                False, r.recipient.account.name_str(), r.value_str(), r.date_made, r.status, r.id
-            )
+            stuff = {
+                "sent": False,
+                "other": r.recipient.account.name_str(),
+                "amount": r.value_str(),
+                "datetime": r.date_made,
+                "status": r.status,
+                "id": r.id
+            }
+            if r.cross_currency(): stuff['other_currency'] = r.recipient.currency
 
         request_list.append(stuff)
 

@@ -1,6 +1,4 @@
 ESSENTIAL
-* Set up screen (select your currency)
-* implement currency conversion
 * Check which pages are login-required
 
 WOULD BE NICE

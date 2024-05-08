@@ -15,9 +15,17 @@
         {% for p in payment_list %}
             <div class="payment-log">
                 <hr class="greyed">
-                <p>{% if p.0 %}TO ->{% else %}FROM <-{% endif %} {{ p.1 }}</p>
-                <p>amount: {{ p.2 }}</p>
-                <p>date-time: {{ p.3 }}</p>
+                <p>{% if p.sent %}TO ->{% else %}FROM <-{% endif %} {{ p.other }}</p>
+                <p>
+                    amount: {{ p.value }} 
+                {% if p.other_currency %}
+                    <span class="greyed">
+                        {% if p.sent %}recieved in {% else %}sent in {% endif %}
+                        {{ p.other_currency }}
+                    </span>
+                {% endif %}
+                </p>
+                <p>date-time: {{ p.datetime }}</p>
             </div>
         {% endfor %}
         </div>

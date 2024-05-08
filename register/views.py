@@ -1,6 +1,6 @@
 from django.db import transaction
 from django.shortcuts import render, redirect
-
+from django.contrib.auth import login as auth_login
 from webapps2024.views import default_context
 from . import forms
 from payapp import models
@@ -102,4 +102,7 @@ def make_user(request):
         new_user_holding.balance = new_user_holding.convert_to_native_currency(1000, "GBP")
         new_user_holding.save()
 
-    return 404
+        # Log the new user in
+        auth_login(request, new_user)
+
+    return redirect('/')

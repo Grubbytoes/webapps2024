@@ -15,17 +15,20 @@
         {% for r in request_list %}
             <div class="request-log">
                 <hr class="greyed">
-                <p>{% if r.0 %}SENT TO{% else %}REQUEST FROM{% endif %} - {{ r.1 }}</p>
-                <p>amount: {{ r.2 }}</p>
-                <p>date-time: {{ r.3 }}</p>
+                <p>{% if r.sent %}SENT TO{% else %}REQUEST FROM{% endif %} - {{ r.other }}</p>
+                <p>amount: {{ r.amount }}</p>
+                <p>date-time: {{ r.datetime }}</p>
                 <p>status:
-            {% if r.4 == 'PEN' %} <span class="greyed">pending</span>
-            {% elif r.4 == 'ACC' %} <span class="green-success">accepted</span>
-            {% elif r.4 == 'REJ' %} <span class="red-error">rejected</span>
+            {% if r.status == 'PEN' %} <span class="greyed">pending</span>
+            {% elif r.status == 'ACC' %} <span class="green-success">accepted</span>
+            {% elif r.status == 'REJ' %} <span class="red-error">rejected</span>
             {% endif %}
                 </p>
-            {% if r.4 == 'PEN' and not r.0%}
-                <p><a class="green-success" href="?acc_req={{ r.5 }}">ACCEPT</a> or <a class="red-error" href="?rej_req={{ r.5 }}">REJECT</a> this request</p>
+            {% if r.status == 'PEN' and not r.sent %}
+                <p><a class="green-success" href="?acc_req={{ r.id }}">ACCEPT</a> or <a class="red-error" href="?rej_req={{ r.id }}">REJECT</a> this request</p>
+            {% endif %}
+            {% if r.status == 'PEN' and r.other_currency %}
+                <p class="greyed">NOTE: This is a {{ r.other_currency }} account, currency conversion is automatic</p>
             {% endif %}
                 
             </div>

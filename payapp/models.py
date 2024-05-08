@@ -4,6 +4,7 @@ from django.db import models
 from django.db import transaction
 import requests
 
+CONVERTRON = "http://localhost:8000/convertron/"
 CURRENCIES = {
     "USD": "American Dollar",
     "GBP": "Pound Sterling",
@@ -83,7 +84,7 @@ class Holding(models.Model):
     The amount of money an account has
     """
     account = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, primary_key=True)
-    balance = models.PositiveIntegerField()
+    balance = models.FloatField()
     currency = models.CharField(max_length=3, choices=CURRENCIES, default="GBP")
 
     def send_payment(self, recipient: 'Holding', amount) -> bool:
@@ -125,7 +126,13 @@ class Holding(models.Model):
         if self.currency == currency_from:
             return amount
         else:
-            raise Exception("YOU HAVEN'T DONE THIS YET HUGO YOU DUMB FUCK")
+            convertron_response = requests.get(CONVERTRON, {
+                'from': currency_from,
+                'to': self.currency,
+                'amount': amount
+            })
+            json = convertron_response.json()
+            return json['value']
 
     def receive_payment(self, amount, currency, sent_from="Someone"):
         """
