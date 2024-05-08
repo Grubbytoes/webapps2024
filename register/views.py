@@ -1,3 +1,4 @@
+from django.db import transaction
 from django.shortcuts import render, redirect
 
 from webapps2024.views import default_context
@@ -84,6 +85,21 @@ def make_user(request):
     setup_form = forms.SetUp(request.POST)
     if not setup_form.is_valid(): return 403
     new_user_data = setup_form.cleaned_data
-    print(setup_form.get_piggy_back())
+    new_user_data.update(setup_form.get_piggy_back())
+
+    # Pop off unwanted data from the user details that need to be added back in manually
+    raw_password = new_user_data.pop("password")
+    currency = new_user_data.pop("currency")
+
+    # Create the new user with basic details
+    with transaction.atomic():
+        new_user = models.UserAccount(**new_user_data)
+        new_user.set_password(raw_password)
+        new_user.save()
+
+        # Set up the new user's holding
+        new_user_holding = models.Holding(currency=currency, account=new_user)
+        new_user_holding.balance = new_user_holding.convert_to_native_currency(1000, "GBP")
+        new_user_holding.save()
 
     return 404
