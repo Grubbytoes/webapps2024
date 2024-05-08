@@ -65,6 +65,7 @@ def setup(request):
 
     context = default_context(request, 'Set up your account')
     setup_form = forms.SetUp()
+    setup_form.set_piggy_back(request.POST['username'], request.POST['email'], request.POST['password'])
     context['form'] = setup_form
     context['form_destination'] = "/register/make_user"
 
@@ -81,3 +82,8 @@ def make_user(request):
     if request.method != "POST": return redirect("/register")
 
     setup_form = forms.SetUp(request.POST)
+    if not setup_form.is_valid(): return 403
+    new_user_data = setup_form.cleaned_data
+    print(setup_form.get_piggy_back())
+
+    return 404

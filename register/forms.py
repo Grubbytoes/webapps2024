@@ -1,6 +1,7 @@
 from django import forms
 from payapp import models
 
+
 class RegisterForm(forms.Form):
     username = forms.CharField(label="Your Username")
     email = forms.EmailField(label="Your Email")
@@ -17,7 +18,19 @@ class RegisterForm(forms.Form):
             return True
         return False
 
+
 class SetUp(forms.Form):
     first_name = forms.CharField(label="Your First Name")
     last_name = forms.CharField(label="Your Last Name")
     currency = forms.ChoiceField(label="Your native currency", choices=models.CURRENCIES)
+    _piggy_back = {"set": False}
+
+    def set_piggy_back(self, username, email, password):
+        self._piggy_back.update({"set": True, "username": username, "email": email, "password": password})
+
+    def get_piggy_back(self):
+        return {
+            "password": self._piggy_back["password"],
+            "username": self._piggy_back["username"],
+            "email": self._piggy_back["email"]
+        }
