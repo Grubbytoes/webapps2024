@@ -167,7 +167,7 @@ class Notification(models.Model):
 class AbstractMoneyMovement(models.Model):
     sender = models.ForeignKey(Holding, name="sender", on_delete=models.CASCADE, related_name="sent_from")
     recipient = models.ForeignKey(Holding, name="recipient", on_delete=models.CASCADE, related_name="received_by")
-    value = models.PositiveIntegerField(verbose_name="Value (as sent)")
+    value = models.FloatField(verbose_name="Value (as sent)")
     date_made = models.DateTimeField(auto_now_add=1)
 
     def value_str(self, format_for_recipient=False):
