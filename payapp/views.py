@@ -161,6 +161,7 @@ def my_account(request):
     return render(request, 'user_info/my_account.html', context)
 
 
+@login_required
 def my_notifications(request):
     context = default_context(request, "My Notifications")
 
@@ -228,7 +229,7 @@ def my_requests(request):
                 context['error'] = True
         else:
             context["request_details"] = (
-                req.recipient.account.name_str(), req.value_str(format_for_recipient=True), req.id
+                req.recipient.account.name_str(), req.value_str(), req.id
             )
 
         return render(request, 'user_info/accept_request.html', context)

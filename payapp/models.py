@@ -153,8 +153,8 @@ class Holding(models.Model):
     def receive_request(self, amount_requested, currency, request_from="Someone"):
         new_notification = Notification(user=self.account)
         amount_in_native = self.convert_to_native_currency(amount_requested, currency)
-        new_notification.message = "{} has requested you send them {} {}.".format(
-            request_from, amount_in_native, self.currency
+        new_notification.message = "{} has requested you send them {}.".format(
+            request_from, format_for_currency(amount_in_native, self.currency)
         )
         new_notification.save()
 
