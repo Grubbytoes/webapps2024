@@ -87,7 +87,7 @@ class Holding(models.Model):
     balance = models.FloatField()
     currency = models.CharField(max_length=3, choices=CURRENCIES, default="GBP")
 
-    def send_payment(self, recipient: 'Holding', amount) -> bool:
+    def send_payment(self, recipient: 'Holding', amount, requested=None) -> bool:
         """
         Sends money, and saves the transaction as a log. does NOT check to see whether balance is sufficient,
         not negative etc.
@@ -109,6 +109,8 @@ class Holding(models.Model):
                 t = Transaction(value=amount)
                 t.sender = self
                 t.recipient = recipient
+                if requested:
+                    t.requested = requested
                 t.save()
                 success = True
         finally:
@@ -203,7 +205,7 @@ class Request(AbstractMoneyMovement):
     def accept(self) -> bool:
         success = False
         if self.is_possible() and self.status == 'PEN':
-            success = self.sender.send_payment(self.recipient, self.value)
+            success = self.sender.send_payment(self.recipient, self.value, requested=self)
         if success:
             self.status = 'ACC'
             self.save()

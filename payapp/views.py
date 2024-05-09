@@ -80,7 +80,10 @@ def make_payment(request):
         amount_to_pay = form_data['value']
 
         # Make sure the amount if valid
-        if sender.balance < amount_to_pay:
+        if amount_to_pay < 0:
+            errors.append("You cannot send negative money")
+            return False
+        elif sender.balance < amount_to_pay:
             errors.append("Sorry, you do not have enough money to make this payment")
             return False
         elif recipient_user is None:
